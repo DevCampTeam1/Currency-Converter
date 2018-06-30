@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:include="fragments/head" th:with="pageTitle='Currency Converter'"></head>
+
+<body>
+
+<header th:include="fragments/header"></header>
+
+<div th:if="${message != null}">
+    <h1 class="message" th:text="${message}"></h1>
+</div>
+
+<main th:include="${view}"></main>
+
+<footer th:include="fragments/footer"></footer>
+
+<span th:include="fragments/scripts-bundle"></span>
+
+</body>
+</html>
