@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,6 +18,16 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Autowired
     public CurrencyServiceImpl(CurrencyRepository currencyRepository) {
         this.currencyRepository = currencyRepository;
+    }
+
+    @Override
+    public List<Currency> findAll() {
+        return this.currencyRepository.findAll();
+    }
+
+    @Override
+    public Currency findByCurrencyCode(String code) {
+        return this.currencyRepository.findByCurrencyCode(code);
     }
 
     @Override

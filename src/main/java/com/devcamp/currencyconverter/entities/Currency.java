@@ -19,6 +19,9 @@ public class Currency {
     @Column(name = "rate")
     private BigDecimal rate;
 
+    public Currency() {
+    }
+
     public Currency(String currencyCode, String currencyName, BigDecimal rate) {
         this.currencyCode = currencyCode;
         this.currencyName = currencyName;

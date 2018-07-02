@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public final class CurrencyScraper {
@@ -32,6 +34,8 @@ public final class CurrencyScraper {
 
     @PostConstruct
     public void scrape() throws IOException {
+        List<Currency> currencies = this.currencyService.findAll();
+
         Document document = Jsoup.connect(URL).get();
 
         Element table = document.getElementById(TABLE_ID);
@@ -43,7 +47,20 @@ public final class CurrencyScraper {
             String currencyCode = cols.get(CURRENCY_CODE_INDEX).text();
             String currencyName = cols.get(CURRENCY_NAME_INDEX).text();
             BigDecimal rateToUSD = new BigDecimal(cols.get(CURRENCY_RATE_INDEX).text());
-            Currency currency = new Currency(currencyCode, currencyName, rateToUSD);
+
+            Optional<Currency> currencyOpt = currencies.stream()
+                    .filter(c -> c.getCurrencyCode().equals(currencyCode))
+                    .findFirst();
+            Currency currency = null;
+
+            if (currencyOpt.isPresent()) {
+                currency = currencyOpt.get();
+                currency.setRate(rateToUSD);
+            } else {
+                currency = new Currency(currencyCode, currencyName, rateToUSD);
+            }
+
+            currency.setRate(rateToUSD);
             this.currencyService.save(currency);
         }
     }
