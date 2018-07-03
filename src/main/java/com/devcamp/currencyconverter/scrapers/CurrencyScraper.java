@@ -37,7 +37,7 @@ public final class CurrencyScraper {
         this.currencyService = currencyService;
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void scrape() throws IOException {
         Document document = Jsoup.connect(URL + INITIAL_CURRENCY).timeout(0).get();
         Element table = document.getElementById(TABLE_ID);
@@ -52,7 +52,7 @@ public final class CurrencyScraper {
             allCurrencyCodes.add(code);
             // If database does not exist //
             // -------------------------- //
-            //this.currencyService.save(new Currency(code));
+            // this.currencyService.save(new Currency(code));
             // -------------------------- //
         }
 

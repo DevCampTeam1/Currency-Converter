@@ -3,6 +3,7 @@ package com.devcamp.currencyconverter.repositories;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Rate;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,5 +12,10 @@ import java.util.List;
 public interface RateRepository extends JpaRepository<Rate, Long> {
     Rate findBySourceCurrencyAndTargetCurrency(Currency source, Currency target);
 
-    List<Rate> findAllBySourceCurrency(Currency source);
+    List<Rate> findAllBySourceCurrency(Currency currency);
+
+    @Query(value ="SELECT COUNT(*) FROM currency_converter.rates AS r\n" +
+            "WHERE r.source_currency_id IN(1,2,3,4,5,6,7,8,9,64)\n" +
+            "AND r.target_currency_id IN(1,2,3,4,5,6,7,8,9,64)", nativeQuery = true)
+    List<Rate> getTop10CurrenciesRates();
 }
