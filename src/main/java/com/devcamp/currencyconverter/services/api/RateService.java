@@ -11,4 +11,6 @@ public interface RateService {
     Rate getRate(Currency source, Currency target);
 
     void save(Rate currency);
+
+    List<Rate> getAllWithSourceCurrency(Currency currency);
 }

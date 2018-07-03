@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -51,11 +48,21 @@ public final class CurrencyScraper {
             Elements cols = row.children();
             String code = cols.get(CURRENCY_CODE_INDEX).text();
             allCurrencyCodes.add(code);
+            // If database does not exist
             //this.currencyService.save(new Currency(code));
         }
 
-        Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
-                .collect(Collectors.groupingBy(Currency::getCode));
+        // If database does not exist
+        // Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
+        //        .collect(Collectors.groupingBy(Currency::getCode));
+
+        Map<String, Map<String, Rate>> rates = new HashMap<>();
+        for (String code : allCurrencyCodes) {
+            rates.put(code, new HashMap<>());
+        }
+        this.rateService.findAll()
+                .forEach(r -> rates.get(r.getSourceCurrency().getCode())
+                        .put(r.getTargetCurrency().getCode(), r));
 
         int counter = 1;
         for (String currencyCode : allCurrencyCodes) {
@@ -64,27 +71,27 @@ public final class CurrencyScraper {
             tableBody = table.getElementsByTag(TABLE_BODY_TAG).first();
             rows = tableBody.children();
 
+            // If database does not exist
+            // Currency source = allCurrencies.get(currencyCode).get(0);
+
             for (Element row : rows) {
                 Elements cols = row.children();
                 String secondCurrencyCode = cols.get(CURRENCY_CODE_INDEX).text();
                 Double rateValue = Double.valueOf(cols.get(CURRENCY_RATE_INDEX).text());
 
-                //Currency source = this.currencyService.getCurrency(currencyCode);
-                Currency source =  allCurrencies.get(currencyCode).get(0);
-                //Currency target = this.currencyService.getCurrency(secondCurrencyCode);
-                Currency target = allCurrencies.get(secondCurrencyCode).get(0);
+                // If database does not exist
+                //Currency target = allCurrencies.get(secondCurrencyCode).get(0);
+                Rate rate = rates.get(currencyCode).get(secondCurrencyCode);
 
-                Rate rate = this.rateService.getRate(source, target);
-                if (rate == null) {
-                    rate = new Rate(source, target, rateValue);
-                } else {
-                    rate.setRate(rateValue);
-                }
-
+                // If database does not exist
+                // if (rate == null) {
+                //     rate = new Rate(source, target, rateValue);
+                // } else {
+                rate.setRate(rateValue);
+                // }
                 this.rateService.save(rate);
             }
             System.out.println(counter++);
         }
-        System.out.println("DONE!!!");
     }
 }

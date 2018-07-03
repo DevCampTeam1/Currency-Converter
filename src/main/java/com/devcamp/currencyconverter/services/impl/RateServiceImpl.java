@@ -35,4 +35,9 @@ public class RateServiceImpl implements RateService {
     public void save(Rate currency) {
         this.currencyRepository.saveAndFlush(currency);
     }
+
+    @Override
+    public List<Rate> getAllWithSourceCurrency(Currency currency) {
+        return this.currencyRepository.findAllBySourceCurrency(currency);
+    }
 }
