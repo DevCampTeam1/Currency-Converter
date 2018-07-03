@@ -14,7 +14,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public final class CurrencyScraper {
@@ -35,7 +38,7 @@ public final class CurrencyScraper {
         this.currencyService = currencyService;
     }
 
-    //@PostConstruct
+    @PostConstruct
     public void scrape() throws IOException {
         Document document = Jsoup.connect(URL + INITIAL_CURRENCY).timeout(0).get();
         Element table = document.getElementById(TABLE_ID);
@@ -44,16 +47,15 @@ public final class CurrencyScraper {
 
         List<String> allCurrencyCodes = new ArrayList<>();
 
-        int rowsCounter = 167;
         for (Element row : rows) {
             Elements cols = row.children();
             String code = cols.get(CURRENCY_CODE_INDEX).text();
             allCurrencyCodes.add(code);
             //this.currencyService.save(new Currency(code));
-            if (rowsCounter-- == 0) {
-                break;
-            }
         }
+
+        Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
+                .collect(Collectors.groupingBy(Currency::getCode));
 
         int counter = 1;
         for (String currencyCode : allCurrencyCodes) {
@@ -67,11 +69,12 @@ public final class CurrencyScraper {
                 String secondCurrencyCode = cols.get(CURRENCY_CODE_INDEX).text();
                 Double rateValue = Double.valueOf(cols.get(CURRENCY_RATE_INDEX).text());
 
-                Currency source = this.currencyService.getCurrency(currencyCode);
-                Currency target = this.currencyService.getCurrency(secondCurrencyCode);
+                //Currency source = this.currencyService.getCurrency(currencyCode);
+                Currency source =  allCurrencies.get(currencyCode).get(0);
+                //Currency target = this.currencyService.getCurrency(secondCurrencyCode);
+                Currency target = allCurrencies.get(secondCurrencyCode).get(0);
 
                 Rate rate = this.rateService.getRate(source, target);
-
                 if (rate == null) {
                     rate = new Rate(source, target, rateValue);
                 } else {
