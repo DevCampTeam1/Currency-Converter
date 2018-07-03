@@ -26,12 +26,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public Currency findByCurrencyCode(String code) {
-        return this.currencyRepository.findByCurrencyCode(code);
+    public Currency getCurrency(String code) {
+        return this.currencyRepository.findByCode(code);
     }
 
     @Override
     public void save(Currency currency) {
-        this.currencyRepository.save(currency);
+        this.currencyRepository.saveAndFlush(currency);
     }
 }

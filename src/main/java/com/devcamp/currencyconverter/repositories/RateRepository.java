@@ -1,10 +1,11 @@
 package com.devcamp.currencyconverter.repositories;
 
 import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.entities.Rate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CurrencyRepository extends JpaRepository<Currency, Long> {
-    Currency findByCode(String code);
+public interface RateRepository extends JpaRepository<Rate, Long> {
+    Rate findBySourceCurrencyAndTargetCurrency(Currency source, Currency target);
 }
