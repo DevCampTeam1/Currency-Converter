@@ -29,10 +29,15 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
         List<Currency> currencies = this.currencyService.findAll();
+        Currency source = this.currencyService.getCurrency("BGN");
+        Currency target = this.currencyService.getCurrency("USD");
+        Rate rate = this.rateService.getRate(source, target);
+
         model.addAttribute("sourceCurrency", "BGN");
         model.addAttribute("targetCurrency", "USD");
         model.addAttribute("currencies", currencies);
-        model.addAttribute("result", 0);
+        model.addAttribute("sum", 1);
+        model.addAttribute("result", rate.getRate());
         model.addAttribute("view", "home/index");
         return "base-layout";
     }
@@ -52,6 +57,7 @@ public class IndexController {
         model.addAttribute("sourceCurrency", sourceCurrency);
         model.addAttribute("targetCurrency", targetCurrency);
         model.addAttribute("currencies", currencies);
+        model.addAttribute("sum", sum);
         model.addAttribute("result", result);
         model.addAttribute("view", "home/index");
         return "base-layout";
