@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -48,50 +50,64 @@ public final class CurrencyScraper {
             Elements cols = row.children();
             String code = cols.get(CURRENCY_CODE_INDEX).text();
             allCurrencyCodes.add(code);
-            // If database does not exist
+            // If database does not exist //
+            // -------------------------- //
             //this.currencyService.save(new Currency(code));
+            // -------------------------- //
         }
 
-        // If database does not exist
+        // If database does not exist //
+        // -------------------------- //
         // Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
         //        .collect(Collectors.groupingBy(Currency::getCode));
+        // -------------------------- //
 
         Map<String, Map<String, Rate>> rates = new HashMap<>();
         for (String code : allCurrencyCodes) {
             rates.put(code, new HashMap<>());
         }
-        this.rateService.findAll()
-                .forEach(r -> rates.get(r.getSourceCurrency().getCode())
-                        .put(r.getTargetCurrency().getCode(), r));
+        this.rateService.findAll().forEach(r ->
+                rates.get(r.getSourceCurrency().getCode()).put(r.getTargetCurrency().getCode(), r)
+        );
 
-        int counter = 1;
+        int counter = 166;
         for (String currencyCode : allCurrencyCodes) {
             document = Jsoup.connect(URL + currencyCode).timeout(0).get();
             table = document.getElementById(TABLE_ID);
             tableBody = table.getElementsByTag(TABLE_BODY_TAG).first();
             rows = tableBody.children();
 
-            // If database does not exist
+            // If database does not exist //
+            // -------------------------- //
             // Currency source = allCurrencies.get(currencyCode).get(0);
+            // -------------------------- //
+            Map<String, Rate> currentRates = rates.get(currencyCode);
 
             for (Element row : rows) {
                 Elements cols = row.children();
                 String secondCurrencyCode = cols.get(CURRENCY_CODE_INDEX).text();
                 Double rateValue = Double.valueOf(cols.get(CURRENCY_RATE_INDEX).text());
 
-                // If database does not exist
-                //Currency target = allCurrencies.get(secondCurrencyCode).get(0);
-                Rate rate = rates.get(currencyCode).get(secondCurrencyCode);
+                // If database does not exist //
+                // -------------------------- //
+                // Currency target = allCurrencies.get(secondCurrencyCode).get(0);
+                // -------------------------- //
 
-                // If database does not exist
+                Rate rate = currentRates.get(secondCurrencyCode);
+
+                // If database does not exist //
+                // -------------------------- //
                 // if (rate == null) {
                 //     rate = new Rate(source, target, rateValue);
                 // } else {
+                // -------------------------- //
                 rate.setRate(rateValue);
+                // -------------------------- //
                 // }
+                // -------------------------- //
                 this.rateService.save(rate);
             }
-            System.out.println(counter++);
+            System.out.println(counter--);
         }
     }
 }
