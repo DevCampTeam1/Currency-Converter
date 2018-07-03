@@ -34,38 +34,13 @@
 </form>
 <table>
     <thead>
-    <tr>
-        <th>USD</th>
-        <th>BGN</th>
-        <th>EUR</th>
-        <th>USD</th>
-    </tr>
+
     </thead>
     <tbody>
-    <tr>
-        <td>USD</td>
-        <td>BGN</td>
-        <td>EUR</td>
-        <td>USD</td>
+    <tr th:each="list : ${rates}">
+        <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
     </tr>
-    <tr>
-        <td>USD</td>
-        <td>BGN</td>
-        <td>EUR</td>
-        <td>USD</td>
-    </tr>
-    <tr>
-        <td>USD</td>
-        <td>BGN</td>
-        <td>EUR</td>
-        <td>USD</td>
-    </tr>
-    <tr>
-        <td>USD</td>
-        <td>BGN</td>
-        <td>EUR</td>
-        <td>USD</td>
-    </tr>
+
     </tbody>
 </table>
 </html>

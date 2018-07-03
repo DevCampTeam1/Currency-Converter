@@ -14,30 +14,35 @@ import java.util.List;
 @Transactional
 public class RateServiceImpl implements RateService {
 
-    private RateRepository currencyRepository;
+    private RateRepository rateRepository;
 
     @Autowired
     public RateServiceImpl(RateRepository currencyRepository) {
-        this.currencyRepository = currencyRepository;
+        this.rateRepository = currencyRepository;
     }
 
     @Override
     public List<Rate> findAll() {
-        return this.currencyRepository.findAll();
+        return this.rateRepository.findAll();
     }
 
     @Override
     public Rate getRate(Currency source, Currency target) {
-        return this.currencyRepository.findBySourceCurrencyAndTargetCurrency(source, target);
+        return this.rateRepository.findBySourceCurrencyAndTargetCurrency(source, target);
     }
 
     @Override
     public void save(Rate currency) {
-        this.currencyRepository.saveAndFlush(currency);
+        this.rateRepository.saveAndFlush(currency);
     }
 
     @Override
     public List<Rate> getAllWithSourceCurrency(Currency currency) {
-        return this.currencyRepository.findAllBySourceCurrency(currency);
+        return this.rateRepository.findAllBySourceCurrency(currency);
+    }
+
+    @Override
+    public List<Rate> getTop10CurrenciesRates() {
+        return this.rateRepository.getTop10CurrenciesRates();
     }
 }

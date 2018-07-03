@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
@@ -32,6 +36,20 @@ public class IndexController {
         Currency source = this.currencyService.getCurrency("BGN");
         Currency target = this.currencyService.getCurrency("USD");
         Rate rate = this.rateService.getRate(source, target);
+
+        //
+
+        List<List<Rate>> top10Rates = this.rateService.getTop10CurrenciesRates().stream()
+                .collect(Collectors.groupingBy(Rate::getSourceCurrency))
+                .entrySet()
+                .stream()
+                .sorted(Comparator.comparing(a -> a.getKey().getId()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+        top10Rates.forEach(l -> l.sort(Comparator.comparing(Rate::getId)));
+
+        model.addAttribute("rates", top10Rates);
+        //
 
         model.addAttribute("sourceCurrency", "BGN");
         model.addAttribute("targetCurrency", "USD");
