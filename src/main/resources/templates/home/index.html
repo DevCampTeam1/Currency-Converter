@@ -1,46 +1,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<div class="container">
+    <form th:action="@{/}" method="POST">
+        <fieldset>
+            <div class="row">
+                <div class="col-md-2">
+                    <select class="form-control" name="sourceCurrency">
+                        <option th:each="currency : ${currencies}" th:value="${currency.code}"
+                                th:text="${currency.code}"
+                                th:selected="${sourceCurrency.equals(currency.code)}"></option>
+                    </select>
+                </div>
 
-<form th:action="@{/}" method="POST">
-    <fieldset>
-        <div class="row">
-            <div class="col-sm-2">
-                <select class="form-control" name="sourceCurrency">
-                    <option th:each="currency : ${currencies}" th:value="${currency.code}" th:text="${currency.code}"
-                            th:selected="${sourceCurrency.equals(currency.code)}"></option>
-                </select>
+                <div class="col-md-2">
+                    <select class="form-control" name="targetCurrency">
+                        <option th:each="currency : ${currencies}" th:value="${currency.code}"
+                                th:text="${currency.code}"
+                                th:selected="${targetCurrency.equals(currency.code)}"></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="text" class="form-control" th:value="${sum}" id="sum" placeholder="Sum" name="sum"/>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="result" placeholder="Result"
+                           name="result" th:value="${result}" readonly/>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Calculate</button>
+                </div>
             </div>
+        </fieldset>
+    </form>
+    <table class="table table-responsive">
+        <thead>
 
-            <div class="col-sm-2">
-                <select class="form-control" name="targetCurrency">
-                    <option th:each="currency : ${currencies}" th:value="${currency.code}" th:text="${currency.code}"
-                            th:selected="${targetCurrency.equals(currency.code)}"></option>
-                </select>
-            </div>
-
-            <div class="col-sm-2">
-                <input type="text" class="form-control" th:value="${sum}" id="sum" placeholder="Sum" name="sum"/>
-            </div>
-
-            <div class="col-sm-2">
-                <input type="text" class="form-control" id="result" placeholder="Result"
-                       name="result" th:value="${result}"/>
-            </div>
-
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-primary">Calculate</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
-<table>
-    <thead>
-
-    </thead>
-    <tbody>
-    <tr th:each="list : ${rates}">
-        <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
-    </tr>
-
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <tr th:each="list : ${rates}">
+            <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </html>

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class IndexController {
                 .sorted(Comparator.comparing(a -> a.getKey().getId()))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
-        top10Rates.forEach(l -> l.sort(Comparator.comparing(Rate::getId)));
+        //top10Rates.forEach(l -> l.sort(Comparator.comparing(Rate::getId)));
 
         model.addAttribute("rates", top10Rates);
         //

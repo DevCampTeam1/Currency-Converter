@@ -1,5 +1,16 @@
-form{
-    width: 300px;
+* {
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    width: 800px;
     margin: 50px auto;
     background-color: antiquewhite;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
 }
