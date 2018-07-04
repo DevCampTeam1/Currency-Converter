@@ -1,5 +1,7 @@
 package com.devcamp.currencyconverter.controllers;
 
+import com.devcamp.currencyconverter.cache.Cache;
+import com.devcamp.currencyconverter.constants.ErrorMessages;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Rate;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
@@ -22,11 +24,13 @@ public class IndexController {
 
     private RateService rateService;
     private CurrencyService currencyService;
+    private Cache cache;
 
     @Autowired
-    public IndexController(RateService rateService, CurrencyService currencyService) {
+    public IndexController(RateService rateService, CurrencyService currencyService, Cache cache) {
         this.rateService = rateService;
         this.currencyService = currencyService;
+        this.cache = cache;
     }
 
     @GetMapping("/")
@@ -36,20 +40,9 @@ public class IndexController {
         Currency target = this.currencyService.getCurrency("USD");
         Rate rate = this.rateService.getRate(source, target);
 
-        //
-
-        List<List<Rate>> top10Rates = this.rateService.getTop10CurrenciesRates().stream()
-                .collect(Collectors.groupingBy(Rate::getSourceCurrency))
-                .entrySet()
-                .stream()
-                .sorted(Comparator.comparing(a -> a.getKey().getId()))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
-        //top10Rates.forEach(l -> l.sort(Comparator.comparing(Rate::getId)));
+        List<List<Rate>> top10Rates = this.cache.getTop10Rates();
 
         model.addAttribute("rates", top10Rates);
-        //
-
         model.addAttribute("sourceCurrency", "BGN");
         model.addAttribute("targetCurrency", "USD");
         model.addAttribute("currencies", currencies);
@@ -68,9 +61,16 @@ public class IndexController {
         List<Currency> currencies = this.currencyService.findAll();
         Currency source = this.currencyService.getCurrency(sourceCurrency);
         Currency target = this.currencyService.getCurrency(targetCurrency);
-        Rate rate = this.rateService.getRate(source, target);
-        BigDecimal result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum));
-
+        BigDecimal result;
+        if (source == null || target == null) {
+            model.addAttribute("message", ErrorMessages.INVALID_CURRENCY);
+            result = BigDecimal.ZERO;
+        } else {
+            Rate rate = this.rateService.getRate(source, target);
+            result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum));
+        }
+        List<List<Rate>> top10Rates = this.cache.getTop10Rates();
+        model.addAttribute("rates", top10Rates);
         model.addAttribute("sourceCurrency", sourceCurrency);
         model.addAttribute("targetCurrency", targetCurrency);
         model.addAttribute("currencies", currencies);
