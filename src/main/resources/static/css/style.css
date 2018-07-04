@@ -1,16 +1,30 @@
 * {
-    margin: 0;
-    padding: 0;
-}
+  margin: 0;
+  padding: 0; }
 
 form {
-    width: 800px;
-    margin: 50px auto;
-    background-color: antiquewhite;
-    box-sizing: border-box;
-    padding: 10px;
-}
+  width: 850px;
+  max-width: 96%;
+  margin: 50px auto;
+  background-color: antiquewhite;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  border-radius: 7px; }
+  form input, form select, form button {
+    margin: 3px 0; }
+  form #result {
+    background: white; }
+  form button {
+    width: 100%; }
 
-table {
-    width: 100%;
-}
+#top10table {
+  margin: 40px auto;
+  width: 800px;
+  max-width: 96%; }
+
+@media all and (max-width: 540px) {
+  #top10table table td, #top10table table th {
+    padding: 3px 1px !important;
+    font-size: 14px; } }
+
+/*# sourceMappingURL=style.css.map */

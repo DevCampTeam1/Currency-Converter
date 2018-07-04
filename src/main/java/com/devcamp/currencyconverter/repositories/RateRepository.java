@@ -14,8 +14,9 @@ public interface RateRepository extends JpaRepository<Rate, Long> {
 
     List<Rate> findAllBySourceCurrency(Currency currency);
 
-    @Query(value ="SELECT * FROM currency_converter.rates AS r\n" +
-            "WHERE r.source_currency_id IN(1,2,3,4,5,6,7,8,9,64)\n" +
-            "AND r.target_currency_id IN(1,2,3,4,5,6,7,8,9,64)", nativeQuery = true)
+    @Query(value ="SELECT r.id, r.source_currency_id, r.target_currency_id, TRUNCATE(r.rate, 2) AS rate\n" +
+            "FROM currency_converter.rates AS r\n" +
+            "WHERE r.source_currency_id IN(1,2,3,4,5,6,7,64)\n" +
+            "AND r.target_currency_id IN(1,2,3,4,5,6,7,64)", nativeQuery = true)
     List<Rate> getTop10CurrenciesRates();
 }

@@ -67,7 +67,7 @@ public class IndexController {
             result = BigDecimal.ZERO;
         } else {
             Rate rate = this.rateService.getRate(source, target);
-            result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum));
+            result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum)).abs();
         }
         List<List<Rate>> top10Rates = this.cache.getTop10Rates();
         model.addAttribute("rates", top10Rates);

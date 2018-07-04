@@ -1,9 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="container">
+<div class="wrapper">
     <form th:action="@{/}" method="POST">
         <fieldset>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2 col-sm-6">
                     <select class="form-control" name="sourceCurrency">
                         <option th:each="currency : ${currencies}" th:value="${currency.code}"
                                 th:text="${currency.code}"
@@ -11,7 +11,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-2 col-sm-6">
                     <select class="form-control" name="targetCurrency">
                         <option th:each="currency : ${currencies}" th:value="${currency.code}"
                                 th:text="${currency.code}"
@@ -19,11 +19,12 @@
                     </select>
                 </div>
 
-                <div class="col-md-3">
-                    <input type="number" min="0" class="form-control" th:value="${sum}" id="sum" placeholder="Sum" name="sum"/>
+                <div class="col-md-3 col-sm-6">
+                    <input type="number" min="0" class="form-control" th:value="${sum}" id="sum" placeholder="Sum"
+                           name="sum"/>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-6">
                     <input type="text" class="form-control" id="result" placeholder="Result"
                            name="result" th:value="${result}" readonly/>
                 </div>
@@ -34,15 +35,26 @@
             </div>
         </fieldset>
     </form>
-    <table class="table table-responsive">
-        <thead>
-
-        </thead>
-        <tbody>
-        <tr th:each="list : ${rates}">
-            <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="top10table">
+        <table class="table">
+            <thead>
+            <th></th>
+            <th>USD</th>
+            <th>EUR</th>
+            <th>GBP</th>
+            <th>INR</th>
+            <th>AUD</th>
+            <th>CAD</th>
+            <th>SGD</th>
+            <th>BGN</th>
+            </thead>
+            <tbody>
+            <tr th:each="list : ${rates}">
+                <th class="table-heading" th:text="${list[1].sourceCurrency.code}"></th>
+                <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </html>
