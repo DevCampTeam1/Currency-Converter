@@ -6,7 +6,7 @@ form {
   width: 850px;
   max-width: 96%;
   margin: 50px auto;
-  background-color: antiquewhite;
+  background-color: lightblue;
   box-sizing: border-box;
   padding: 10px 15px;
   border-radius: 7px; }
@@ -19,8 +19,18 @@ form {
 
 #top10table {
   margin: 40px auto;
-  width: 800px;
-  max-width: 96%; }
+  width: 850px;
+  max-width: 96%;
+  border-radius: 10px;
+  border: 2px solid lightblue;
+  padding: 1%;
+  box-sizing: border-box; }
+  #top10table table {
+    border-radius: 10px;
+    background-color: aliceblue;
+    margin-bottom: 0 !important; }
+    #top10table table tr:nth-child(even), #top10table table thead > tr {
+      background-color: lightblue; }
 
 @media all and (max-width: 540px) {
   #top10table table td, #top10table table th {
