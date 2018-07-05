@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
+import java.math.RoundingMode;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
@@ -35,7 +33,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Currency> currencies = this.currencyService.findAll();
+        List<Currency> currencies = this.cache.getAllCurrencies();
         Currency source = this.currencyService.getCurrency("BGN");
         Currency target = this.currencyService.getCurrency("USD");
         Rate rate = this.rateService.getRate(source, target);
@@ -47,7 +45,7 @@ public class IndexController {
         model.addAttribute("targetCurrency", "USD");
         model.addAttribute("currencies", currencies);
         model.addAttribute("sum", 1);
-        model.addAttribute("result", rate.getRate());
+        model.addAttribute("result", String.format("%.6f", rate.getRate()));
         model.addAttribute("view", "home/index");
         return "base-layout";
     }
@@ -58,7 +56,7 @@ public class IndexController {
             , @RequestParam String targetCurrency
             , @RequestParam String sum) {
 
-        List<Currency> currencies = this.currencyService.findAll();
+        List<Currency> currencies = this.cache.getAllCurrencies();
         Currency source = this.currencyService.getCurrency(sourceCurrency);
         Currency target = this.currencyService.getCurrency(targetCurrency);
         BigDecimal result;
@@ -67,7 +65,12 @@ public class IndexController {
             result = BigDecimal.ZERO;
         } else {
             Rate rate = this.rateService.getRate(source, target);
-            result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum)).abs();
+            result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum))
+                    .setScale(6, RoundingMode.HALF_UP);
+            if (result.compareTo(BigDecimal.ZERO) < 0){
+                model.addAttribute("message", ErrorMessages.INVALID_SUM);
+                result = BigDecimal.ZERO;
+            }
         }
         List<List<Rate>> top10Rates = this.cache.getTop10Rates();
         model.addAttribute("rates", top10Rates);

@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="wrapper">
+<section>
     <form th:action="@{/}" method="POST">
         <fieldset>
             <div class="row">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Calculate</button>
+                    <button type="submit" class="btn btn-primary">Convert</button>
                 </div>
             </div>
         </fieldset>
@@ -38,15 +38,10 @@
     <div id="top10table">
         <table class="table">
             <thead>
-            <th></th>
-            <th>USD</th>
-            <th>EUR</th>
-            <th>GBP</th>
-            <th>INR</th>
-            <th>AUD</th>
-            <th>CAD</th>
-            <th>SGD</th>
-            <th>BGN</th>
+            <tr>
+                <th></th>
+                <th class="table-heading" th:each="list : ${rates}" th:text="${list[1].sourceCurrency.code}"></th>
+            </tr>
             </thead>
             <tbody>
             <tr th:each="list : ${rates}">
@@ -56,5 +51,5 @@
             </tbody>
         </table>
     </div>
-</div>
+</section>
 </html>

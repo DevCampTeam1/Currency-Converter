@@ -14,16 +14,21 @@ form {
     margin: 3px 0; }
   form #result {
     background: white; }
-  form button {
-    width: 100%; }
+  form .btn-primary {
+    width: 100%;
+    background-color: #228EE3 !important;
+    border: 1px solid #228EE3;
+    font-size: 18px; }
+  form .btn-primary:hover {
+    background-color: #0F6BB3 !important;
+    border: 1px solid #0F6BB3; }
 
 #top10table {
-  margin: 40px auto;
+  margin: 80px auto;
   width: 850px;
   max-width: 96%;
   border-radius: 10px;
-  border: 2px solid lightblue;
-  padding: 1%;
+  overflow: hidden;
   box-sizing: border-box; }
   #top10table table {
     border-radius: 10px;
@@ -34,7 +39,7 @@ form {
 
 @media all and (max-width: 540px) {
   #top10table table td, #top10table table th {
-    padding: 3px 1px !important;
+    padding: 4px 4px !important;
     font-size: 14px; } }
 
 /*# sourceMappingURL=style.css.map */
