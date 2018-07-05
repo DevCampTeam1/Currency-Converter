@@ -62,6 +62,28 @@
     </div>
 </section>
 <aside>
-<h1 style="color:white; text-align:center">Aside</h1>
+    <div th:if="${hotels == null or #lists.size(hotels) <= 1}" class="hotel-wrapper">
+        <a href="https://locktrip.com/" class="img-wrapper">
+            <img src="https://locktrip.com/img/LockTrip_logo.svg" alt="No Image"/>
+        </a>
+        <a href="https://locktrip.com/" class="img-wrapper">
+            <img src="https://locktrip.com/img/img_banner.svg" alt="No Image"/>
+        </a>
+    </div>
+    <div th:if="${hotels == null or #lists.size(hotels) <= 1}" class="hotel-wrapper">
+        <a href="http://codexio.bg/" class="img-wrapper">
+            <img src="https://scontent-sof1-1.xx.fbcdn.net/v/t1.0-9/36565393_259375031490538_259064563209601024_o.jpg?_nc_cat=0&oh=efa9e60d957f50fd9fa34ebfc593e11d&oe=5BA11F2D" alt="No Image"/>
+        </a>
+    </div>
+    <div class="hotel-wrapper" th:if="${hotels != null}" th:each="hotel : ${hotels}">
+        <h3>
+            <a th:href="@{${hotel.url}}" th:text="${hotel.destination}"></a>
+        </h3>
+        <a th:href="@{${hotel.url}}" class="img-wrapper">
+            <img th:src="@{${hotel.pictureUrl}}" alt="No Image"/>
+        </a>
+        <h6 th:text="${'Price per night: ' + hotel.price + ' LOC'}"></h6>
+        <p th:text="${'You can book a room in this hotel for ' + hotel.totalNights}"></p>
+    </div>
 </aside>
 </html>

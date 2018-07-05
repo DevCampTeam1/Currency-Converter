@@ -6,8 +6,10 @@ import com.devcamp.currencyconverter.constants.ErrorMessages;
 import com.devcamp.currencyconverter.constants.Placeholders;
 import com.devcamp.currencyconverter.constants.Templates;
 import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.entities.Hotel;
 import com.devcamp.currencyconverter.entities.Rate;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
+import com.devcamp.currencyconverter.services.api.HotelService;
 import com.devcamp.currencyconverter.services.api.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,12 +27,14 @@ public class IndexController {
 
     private RateService rateService;
     private CurrencyService currencyService;
+    private HotelService hotelService;
     private Cache cache;
 
     @Autowired
-    public IndexController(RateService rateService, CurrencyService currencyService, Cache cache) {
+    public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService, Cache cache) {
         this.rateService = rateService;
         this.currencyService = currencyService;
+        this.hotelService = hotelService;
         this.cache = cache;
     }
 
@@ -39,8 +43,10 @@ public class IndexController {
         List<Currency> currencies = this.cache.getAllCurrencies();
         Currency source = this.currencyService.getCurrency(Currencies.DEFAULT_SOURCE_CURRENCY);
         Currency target = this.currencyService.getCurrency(Currencies.DEFAULT_TARGET_CURRENCY);
+
         BigDecimal rate = BigDecimal.valueOf(this.rateService.getRate(source, target).getRate())
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
+
         List<List<Rate>> top10Rates = this.cache.getTop10Rates();
 
         addAttributes(model, currencies, rate, top10Rates);
@@ -58,8 +64,13 @@ public class IndexController {
         Currency target = this.currencyService.getCurrency(targetCurrency);
         BigDecimal result = validateInput(model, sum, source, target);
 
+        List<Hotel> hotels = this.hotelService.findAllAvailableHotels(result.doubleValue());
+        hotels.forEach(h -> h.setNights(result.doubleValue()));
+
         List<List<Rate>> top10Rates = this.cache.getTop10Rates();
         addAttributes(model, currencies, result, top10Rates);
+        model.addAttribute("hotels", hotels);
+        model.addAttribute(Placeholders.INPUT_SUM, sum);
         return Templates.BASE;
     }
 
