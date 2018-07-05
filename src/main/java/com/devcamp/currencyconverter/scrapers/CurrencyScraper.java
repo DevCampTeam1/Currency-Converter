@@ -105,9 +105,12 @@ public final class CurrencyScraper {
                 // -------------------------- //
                 // }
                 // -------------------------- //
-                this.rateService.save(rate);
+                //this.rateService.save(rate);
             }
             System.out.println(counter--);
         }
+        System.out.println("Updating database...");
+        rates.forEach((key, value) -> value.values().forEach(r -> this.rateService.save(r)));
+        System.out.println("Done!");
     }
 }

@@ -9,6 +9,9 @@
                                 th:text="${currency.code}"
                                 th:selected="${sourceCurrency.equals(currency.code)}"></option>
                     </select>
+                    <div th:if="${invalidSourceCurrencyMessage != null}">
+                        <p class="error-message" th:text="${invalidSourceCurrencyMessage}"></p>
+                    </div>
                 </div>
 
                 <div class="col-md-2 col-sm-6">
@@ -17,11 +20,17 @@
                                 th:text="${currency.code}"
                                 th:selected="${targetCurrency.equals(currency.code)}"></option>
                     </select>
+                    <div th:if="${invalidTargetCurrencyMessage != null}">
+                        <p class="error-message" th:text="${invalidTargetCurrencyMessage}"></p>
+                    </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
                     <input type="number" min="0" class="form-control" th:value="${sum}" id="sum" placeholder="Sum"
                            name="sum"/>
+                    <div th:if="${invalidSumMessage != null}">
+                        <p class="error-message" th:text="${invalidSumMessage}"></p>
+                    </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
@@ -40,11 +49,11 @@
             <thead>
             <tr>
                 <th></th>
-                <th class="table-heading" th:each="list : ${rates}" th:text="${list[1].sourceCurrency.code}"></th>
+                <th class="table-heading" th:each="list : ${top10rates}" th:text="${list[1].sourceCurrency.code}"></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="list : ${rates}">
+            <tr th:each="list : ${top10rates}">
                 <th class="table-heading" th:text="${list[1].sourceCurrency.code}"></th>
                 <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
             </tr>

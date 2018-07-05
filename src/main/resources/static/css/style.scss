@@ -11,19 +11,25 @@ form {
   box-sizing: border-box;
   padding: 10px 15px;
   border-radius: 7px;
+  .error-message {
+    text-align: center;
+    color: #B3460F;
+    margin: 0;
+    font-size: 14px;
+  }
   input, select, button {
     margin: 3px 0;
   }
   #result {
     background: white;
   }
-  .btn-primary{
+  .btn-primary {
     width: 100%;
     background-color: #228EE3 !important;
     border: 1px solid #228EE3;
     font-size: 18px;
   }
-  .btn-primary:hover{
+  .btn-primary:hover {
     background-color: #0F6BB3 !important;
     border: 1px solid #0F6BB3;
   }
@@ -35,8 +41,6 @@ form {
   max-width: 96%;
   border-radius: 10px;
   overflow: hidden;
-  //border: 2px solid lightblue;
-  //padding: 1%;
   box-sizing: border-box;
   table {
     border-radius: 10px;
@@ -44,6 +48,12 @@ form {
     margin-bottom: 0 !important;
     tr:nth-child(even), thead > tr {
       background-color: lightblue;
+    }
+    td, th {
+      border: none;
+    }
+    .table-heading {
+      font-style: italic;
     }
   }
 }

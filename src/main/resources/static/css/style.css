@@ -10,6 +10,11 @@ form {
   box-sizing: border-box;
   padding: 10px 15px;
   border-radius: 7px; }
+  form .error-message {
+    text-align: center;
+    color: #B3460F;
+    margin: 0;
+    font-size: 14px; }
   form input, form select, form button {
     margin: 3px 0; }
   form #result {
@@ -36,6 +41,10 @@ form {
     margin-bottom: 0 !important; }
     #top10table table tr:nth-child(even), #top10table table thead > tr {
       background-color: lightblue; }
+    #top10table table td, #top10table table th {
+      border: none; }
+    #top10table table .table-heading {
+      font-style: italic; }
 
 @media all and (max-width: 540px) {
   #top10table table td, #top10table table th {

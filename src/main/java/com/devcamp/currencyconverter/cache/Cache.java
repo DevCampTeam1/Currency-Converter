@@ -45,7 +45,7 @@ public class Cache {
         return this.top10Rates;
     }
 
-    public List<Currency> getAllCurrencies(){
+    public List<Currency> getAllCurrencies() {
         return this.allCurrencies;
     }
 }

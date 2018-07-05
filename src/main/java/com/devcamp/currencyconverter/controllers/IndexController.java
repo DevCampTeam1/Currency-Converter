@@ -1,7 +1,10 @@
 package com.devcamp.currencyconverter.controllers;
 
 import com.devcamp.currencyconverter.cache.Cache;
+import com.devcamp.currencyconverter.constants.Currencies;
 import com.devcamp.currencyconverter.constants.ErrorMessages;
+import com.devcamp.currencyconverter.constants.Placeholders;
+import com.devcamp.currencyconverter.constants.Templates;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Rate;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
@@ -34,20 +37,14 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
         List<Currency> currencies = this.cache.getAllCurrencies();
-        Currency source = this.currencyService.getCurrency("BGN");
-        Currency target = this.currencyService.getCurrency("USD");
-        Rate rate = this.rateService.getRate(source, target);
-
+        Currency source = this.currencyService.getCurrency(Currencies.DEFAULT_SOURCE_CURRENCY);
+        Currency target = this.currencyService.getCurrency(Currencies.DEFAULT_TARGET_CURRENCY);
+        BigDecimal rate = BigDecimal.valueOf(this.rateService.getRate(source, target).getRate())
+                .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
         List<List<Rate>> top10Rates = this.cache.getTop10Rates();
 
-        model.addAttribute("rates", top10Rates);
-        model.addAttribute("sourceCurrency", "BGN");
-        model.addAttribute("targetCurrency", "USD");
-        model.addAttribute("currencies", currencies);
-        model.addAttribute("sum", 1);
-        model.addAttribute("result", String.format("%.6f", rate.getRate()));
-        model.addAttribute("view", "home/index");
-        return "base-layout";
+        addAttributes(model, currencies, rate, top10Rates);
+        return Templates.BASE;
     }
 
     @PostMapping("/")
@@ -59,27 +56,45 @@ public class IndexController {
         List<Currency> currencies = this.cache.getAllCurrencies();
         Currency source = this.currencyService.getCurrency(sourceCurrency);
         Currency target = this.currencyService.getCurrency(targetCurrency);
-        BigDecimal result;
-        if (source == null || target == null) {
-            model.addAttribute("message", ErrorMessages.INVALID_CURRENCY);
-            result = BigDecimal.ZERO;
-        } else {
-            Rate rate = this.rateService.getRate(source, target);
-            result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum))
-                    .setScale(6, RoundingMode.HALF_UP);
-            if (result.compareTo(BigDecimal.ZERO) < 0){
-                model.addAttribute("message", ErrorMessages.INVALID_SUM);
-                result = BigDecimal.ZERO;
+        BigDecimal result = validateInput(model, sum, source, target);
+
+        List<List<Rate>> top10Rates = this.cache.getTop10Rates();
+        addAttributes(model, currencies, result, top10Rates);
+        return Templates.BASE;
+    }
+
+    private BigDecimal validateInput(Model model, @RequestParam String sum, Currency source, Currency target) {
+        BigDecimal result = BigDecimal.ZERO;
+        if (source == null) {
+            model.addAttribute(Placeholders.INVALID_SOURCE_CURRENCY_MESSAGE, ErrorMessages.INVALID_CURRENCY);
+        }
+        if (target == null) {
+            model.addAttribute(Placeholders.INVALID_TARGET_CURRENCY_MESSAGE, ErrorMessages.INVALID_CURRENCY);
+        }
+        if (source != null && target != null) {
+            if (sumIsNegative(sum)) {
+                model.addAttribute(Placeholders.INVALID_SUM_MESSAGE, ErrorMessages.INVALID_SUM);
+            } else {
+                Rate rate = this.rateService.getRate(source, target);
+                result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum))
+                        .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
             }
         }
-        List<List<Rate>> top10Rates = this.cache.getTop10Rates();
-        model.addAttribute("rates", top10Rates);
-        model.addAttribute("sourceCurrency", sourceCurrency);
-        model.addAttribute("targetCurrency", targetCurrency);
-        model.addAttribute("currencies", currencies);
-        model.addAttribute("sum", sum);
-        model.addAttribute("result", result);
-        model.addAttribute("view", "home/index");
-        return "base-layout";
+        return result;
+    }
+
+    private boolean sumIsNegative(@RequestParam String sum) {
+        return new BigDecimal(sum).compareTo(BigDecimal.ZERO) < 0;
+    }
+
+    private void addAttributes(Model model, List<Currency> currencies
+            , BigDecimal rate, List<List<Rate>> top10Rates) {
+        model.addAttribute(Placeholders.TOP_10_RATES, top10Rates);
+        model.addAttribute(Placeholders.SOURCE_CURRENCY, Currencies.DEFAULT_SOURCE_CURRENCY);
+        model.addAttribute(Placeholders.TARGET_CURRENCY, Currencies.DEFAULT_TARGET_CURRENCY);
+        model.addAttribute(Placeholders.CURRENCIES, currencies);
+        model.addAttribute(Placeholders.INPUT_SUM, Currencies.DEFAULT_SUM);
+        model.addAttribute(Placeholders.RESULT, rate);
+        model.addAttribute(Placeholders.VIEW, Templates.INDEX);
     }
 }
