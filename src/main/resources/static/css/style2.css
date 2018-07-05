@@ -1,0 +1,8 @@
+footer,header {
+    background: rgb(162, 197, 191);
+    height: 80px;
+    clear: both;
+}
+main > aside{
+    background: rgb(241, 241, 243);
+}

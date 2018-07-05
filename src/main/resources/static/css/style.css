@@ -2,13 +2,8 @@
   margin: 0;
   padding: 0; }
 
-header, footer {
-  height: 80px;
-  background: #26292A;
-  clear: both; }
-
 main section {
-  background: linear-gradient(rgba(71, 71, 71, 0.7), rgba(71, 71, 71, 0.7)), url("../images/background.jpg");
+  background: linear-gradient(rgba(160, 160, 160, 0.7), rgba(160, 160, 160, 0.7)), url("../images/background.jpg");
   background-size: cover;
   display: inline-block;
   width: 75%;
@@ -19,10 +14,10 @@ main section {
     width: 850px;
     max-width: 96%;
     margin: 0 auto;
-    background-color: lightblue;
     box-sizing: border-box;
     padding: 10px 15px;
-    border-radius: 7px; }
+    border-radius: 7px;
+    background-color: rgb(216, 122, 97);}
     main section form .error-message {
       text-align: center;
       color: #B3460F;

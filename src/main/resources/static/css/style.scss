@@ -3,15 +3,9 @@
   padding: 0;
 }
 
-header, footer {
-  height: 80px;
-  background: #26292A;
-  clear: both;
-}
-
 main {
   section {
-    background: linear-gradient(rgba(71, 71, 71, 0.7), rgba(71, 71, 71, 0.7)), url("../images/background.jpg");
+    background: linear-gradient(rgba(160, 160, 160, 0.7), rgba(160, 160, 160, 0.7)), url("../images/background.jpg");
     background-size: cover;
     display: inline-block;
     width: 75%;
