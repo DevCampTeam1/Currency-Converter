@@ -2,49 +2,69 @@
   margin: 0;
   padding: 0; }
 
-form {
-  width: 850px;
-  max-width: 96%;
-  margin: 50px auto;
-  background-color: lightblue;
-  box-sizing: border-box;
-  padding: 10px 15px;
-  border-radius: 7px; }
-  form .error-message {
-    text-align: center;
-    color: #B3460F;
-    margin: 0;
-    font-size: 14px; }
-  form input, form select, form button {
-    margin: 3px 0; }
-  form #result {
-    background: white; }
-  form .btn-primary {
-    width: 100%;
-    background-color: #228EE3 !important;
-    border: 1px solid #228EE3;
-    font-size: 18px; }
-  form .btn-primary:hover {
-    background-color: #0F6BB3 !important;
-    border: 1px solid #0F6BB3; }
+header, footer {
+  height: 80px;
+  background: #26292A;
+  clear: both; }
 
-#top10table {
-  margin: 80px auto;
-  width: 850px;
-  max-width: 96%;
-  border-radius: 10px;
-  overflow: hidden;
-  box-sizing: border-box; }
-  #top10table table {
+main section {
+  background: linear-gradient(rgba(71, 71, 71, 0.7), rgba(71, 71, 71, 0.7)), url("../images/background.jpg");
+  background-size: cover;
+  display: inline-block;
+  width: 75%;
+  float: left;
+  height: 900px;
+  padding-top: 70px; }
+  main section form {
+    width: 850px;
+    max-width: 96%;
+    margin: 0 auto;
+    background-color: lightblue;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    border-radius: 7px; }
+    main section form .error-message {
+      text-align: center;
+      color: #B3460F;
+      margin: 0;
+      font-size: 14px; }
+    main section form input, main section form select, main section form button {
+      margin: 3px 0; }
+    main section form #result {
+      background: white; }
+    main section form .btn-primary {
+      width: 100%;
+      background-color: #228EAB !important;
+      border: 1px solid #228EAB;
+      font-size: 18px; }
+    main section form .btn-primary:hover {
+      background-color: #0F6BB3 !important;
+      border: 1px solid #0F6BB3; }
+  main section #top10table {
+    margin: 80px auto;
+    width: 850px;
+    max-width: 96%;
     border-radius: 10px;
-    background-color: aliceblue;
-    margin-bottom: 0 !important; }
-    #top10table table tr:nth-child(even), #top10table table thead > tr {
-      background-color: lightblue; }
-    #top10table table td, #top10table table th {
-      border: none; }
-    #top10table table .table-heading {
-      font-style: italic; }
+    overflow: hidden;
+    box-sizing: border-box; }
+    main section #top10table table {
+      border-radius: 10px;
+      background-color: aliceblue;
+      margin-bottom: 0 !important;
+      color: #18505A; }
+      main section #top10table table tr:nth-child(even), main section #top10table table thead > tr {
+        background-color: lightblue; }
+      main section #top10table table td, main section #top10table table th {
+        border: none; }
+      main section #top10table table .table-heading {
+        font-style: italic;
+        padding-left: 15px; }
+main aside {
+  height: 900px;
+  width: 25%;
+  display: inline-block;
+  float: left;
+  background: black; }
 
 @media all and (max-width: 540px) {
   #top10table table td, #top10table table th {
