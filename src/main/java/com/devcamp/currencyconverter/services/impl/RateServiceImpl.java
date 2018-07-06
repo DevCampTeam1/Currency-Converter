@@ -42,7 +42,7 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public List<Rate> getTop10CurrenciesRates() {
-        return this.rateRepository.getTop10CurrenciesRates();
+    public List<Rate> getTop8CurrenciesRates() {
+        return this.rateRepository.getTop8CurrenciesRates();
     }
 }

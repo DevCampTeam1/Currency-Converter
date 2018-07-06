@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div id="top8table">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="table-heading" th:each="list : ${top8rates}" th:text="${list[1].sourceCurrency.code}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="list : ${top8rates}">
+            <th class="table-heading" th:text="${list[1].sourceCurrency.code}"></th>
+            <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>

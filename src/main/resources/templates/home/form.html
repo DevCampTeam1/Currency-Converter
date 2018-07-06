@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<form th:action="@{/}" method="POST">
+    <fieldset>
+        <div class="row">
+            <div class="col-md-2 col-sm-6">
+                <select class="form-control" name="sourceCurrency">
+                    <option th:each="currency : ${currencies}" th:value="${currency.code}"
+                            th:text="${currency.code}"
+                            th:selected="${sourceCurrency.equals(currency.code)}"></option>
+                </select>
+                <div th:if="${invalidSourceCurrencyMessage != null}">
+                    <p class="error-message" th:text="${invalidSourceCurrencyMessage}"></p>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-6">
+                <select class="form-control" name="targetCurrency">
+                    <option th:each="currency : ${currencies}" th:value="${currency.code}"
+                            th:text="${currency.code}"
+                            th:selected="${targetCurrency.equals(currency.code)}"></option>
+                </select>
+                <div th:if="${invalidTargetCurrencyMessage != null}">
+                    <p class="error-message" th:text="${invalidTargetCurrencyMessage}"></p>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-12">
+                <input type="number" min="0" class="form-control" th:value="${sum}" id="sum" placeholder="Sum"
+                       name="sum"/>
+                <div th:if="${invalidSumMessage != null}">
+                    <p class="error-message" th:text="${invalidSumMessage}"></p>
+                </div>
+            </div>
+
+            <div class="input-group col-md-4">
+                <input type="text" class="form-control" id="result" name="result"
+                       th:value="${result + ' ' + targetCurrency}" readonly/>
+                <input type="text" class="form-control" id="result-loc" name="result-loc"
+                       th:value="${resultLoc + ' LOC'}" readonly/>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Convert</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</html>

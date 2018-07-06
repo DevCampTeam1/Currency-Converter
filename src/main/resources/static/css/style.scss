@@ -2,11 +2,19 @@
   margin: 0;
   padding: 0;
 }
+
+.fa {
+  color: #d87a61;
+  font-size: 26px !important;
+  line-height: 40px;
+  padding-top: 5px;
+}
+
 footer, header {
   background: #d87a61;
   height: 80px;
   clear: both;
-  h1{
+  h1 {
     height: 100%;
     line-height: 80px;
     margin: 0;
@@ -15,7 +23,7 @@ footer, header {
 
 main {
   section {
-    background: linear-gradient(rgba(210, 210, 210, 0.7), rgba(210, 210, 210, 0.7)), url("../images/background2.jpg");
+    background: linear-gradient(rgba(210, 210, 210, 0.7), rgba(210, 210, 210, 0.7)), url("../images/background.jpg");
     background-size: cover;
     display: inline-block;
     width: 75%;
@@ -37,11 +45,17 @@ main {
         margin: 0;
         font-size: 14px;
       }
+      input, select{
+        color: #18505A !important;
+      }
       input, select, button {
         margin: 3px 0;
       }
-      #result {
-        background: white;
+      .input-group > input {
+        margin-bottom: 6px !important;
+      }
+      #sum {
+        padding-right: .25rem;
       }
       .btn-primary {
         width: 100%;
@@ -55,7 +69,7 @@ main {
         border: 1px solid #a2c5bf;
       }
     }
-    #top10table {
+    #top8table {
       margin: 120px auto;
       width: 850px;
       max-width: 96%;
@@ -69,6 +83,7 @@ main {
         background-color: #FAFAFB;
         margin-bottom: 0 !important;
         color: #18505A;
+        font-size: 15px;
         tr:nth-child(even), thead > tr {
           background-color: #F1F1FF;
         }
@@ -101,10 +116,10 @@ main {
       background: #FAFAFB;
       box-sizing: border-box;
       padding: 15px;
-      h3{
+      h3 {
         font-size: 24px;
         padding-bottom: 5px;
-        a{
+        a {
           text-decoration: none;
           font-size: 20px;
           padding: 5px;
@@ -114,7 +129,7 @@ main {
           color: #23527c;
         }
       }
-      p, h6{
+      p, h6 {
         margin: 5px 0;
       }
       .img-wrapper {
@@ -135,7 +150,7 @@ main {
 }
 
 @media all and (max-width: 540px) {
-  #top10table {
+  #top8table {
     table {
       td, th {
         padding: 4px 4px !important;

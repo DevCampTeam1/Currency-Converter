@@ -2,6 +2,12 @@
   margin: 0;
   padding: 0; }
 
+.fa {
+  color: #d87a61;
+  font-size: 26px !important;
+  line-height: 40px;
+  padding-top: 5px; }
+
 footer, header {
   background: #d87a61;
   height: 80px;
@@ -12,7 +18,7 @@ footer, header {
     margin: 0; }
 
 main section {
-  background: linear-gradient(rgba(210, 210, 210, 0.7), rgba(210, 210, 210, 0.7)), url("../images/background2.jpg");
+  background: linear-gradient(rgba(210, 210, 210, 0.7), rgba(210, 210, 210, 0.7)), url("../images/background.jpg");
   background-size: cover;
   display: inline-block;
   width: 75%;
@@ -33,10 +39,14 @@ main section {
       color: #B3460F;
       margin: 0;
       font-size: 14px; }
+    main section form input, main section form select {
+      color: #18505A !important; }
     main section form input, main section form select, main section form button {
       margin: 3px 0; }
-    main section form #result {
-      background: white; }
+    main section form .input-group > input {
+      margin-bottom: 6px !important; }
+    main section form #sum {
+      padding-right: .25rem; }
     main section form .btn-primary {
       width: 100%;
       background-color: #d87a61 !important;
@@ -46,7 +56,7 @@ main section {
     main section form .btn-primary:hover {
       background-color: #a2c5bf !important;
       border: 1px solid #a2c5bf; }
-  main section #top10table {
+  main section #top8table {
     margin: 120px auto;
     width: 850px;
     max-width: 96%;
@@ -54,17 +64,18 @@ main section {
     overflow: hidden;
     box-sizing: border-box;
     box-shadow: 0 0 15px 1px grey; }
-    main section #top10table table {
+    main section #top8table table {
       opacity: 0.8;
       border-radius: 10px;
       background-color: #FAFAFB;
       margin-bottom: 0 !important;
-      color: #18505A; }
-      main section #top10table table tr:nth-child(even), main section #top10table table thead > tr {
+      color: #18505A;
+      font-size: 15px; }
+      main section #top8table table tr:nth-child(even), main section #top8table table thead > tr {
         background-color: #F1F1FF; }
-      main section #top10table table td, main section #top10table table th {
+      main section #top8table table td, main section #top8table table th {
         border: none; }
-      main section #top10table table .table-heading {
+      main section #top8table table .table-heading {
         font-style: italic;
         padding-left: 15px; }
 main aside {
@@ -110,7 +121,7 @@ main aside {
       opacity: 0.7; }
 
 @media all and (max-width: 540px) {
-  #top10table table td, #top10table table th {
+  #top8table table td, #top8table table th {
     padding: 4px 4px !important;
     font-size: 14px; } }
 

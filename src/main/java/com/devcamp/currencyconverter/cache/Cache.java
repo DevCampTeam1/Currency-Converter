@@ -18,7 +18,7 @@ public class Cache {
     private RateService rateService;
     private CurrencyService currencyService;
 
-    private List<List<Rate>> top10Rates;
+    private List<List<Rate>> top8Rates;
     private List<Currency> allCurrencies;
 
     @Autowired
@@ -29,7 +29,7 @@ public class Cache {
 
     @PostConstruct
     public void initiate() {
-        this.top10Rates = this.rateService.getTop10CurrenciesRates().stream()
+        this.top8Rates = this.rateService.getTop8CurrenciesRates().stream()
                 .collect(Collectors.groupingBy(Rate::getSourceCurrency))
                 .entrySet()
                 .stream()
@@ -41,8 +41,8 @@ public class Cache {
 
     }
 
-    public List<List<Rate>> getTop10Rates() {
-        return this.top10Rates;
+    public List<List<Rate>> getTop8Rates() {
+        return this.top8Rates;
     }
 
     public List<Currency> getAllCurrencies() {
