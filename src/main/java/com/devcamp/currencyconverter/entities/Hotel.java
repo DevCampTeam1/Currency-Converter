@@ -32,11 +32,12 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(String destination, Double price, String url, String pictureUrl) {
+    public Hotel(String destination, Double price, String url, String pictureUrl, Country country) {
         this.destination = destination;
         this.price = price;
         this.url = url;
         this.pictureUrl = pictureUrl;
+        this.country = country;
     }
 
     public Long getId() {

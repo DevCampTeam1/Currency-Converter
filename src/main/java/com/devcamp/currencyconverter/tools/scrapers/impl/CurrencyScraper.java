@@ -1,9 +1,10 @@
-package com.devcamp.currencyconverter.scrapers;
+package com.devcamp.currencyconverter.tools.scrapers.impl;
 
-import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.tools.io.api.ConsoleIO;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.RateService;
+import com.devcamp.currencyconverter.tools.scrapers.api.Scraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,15 +12,12 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
-public final class CurrencyScraper {
+public final class CurrencyScraper implements Scraper {
 
     private static final String URL = "https://www.xe.com/currencytables/?from=";
     private static final String TABLE_ID = "historicalRateTbl";
@@ -30,14 +28,17 @@ public final class CurrencyScraper {
 
     private RateService rateService;
     private CurrencyService currencyService;
+    private ConsoleIO consoleIO;
 
     @Autowired
-    public CurrencyScraper(RateService rateService, CurrencyService currencyService) {
+    public CurrencyScraper(RateService rateService, CurrencyService currencyService, ConsoleIO consoleIO) {
         this.rateService = rateService;
         this.currencyService = currencyService;
+        this.consoleIO = consoleIO;
     }
 
     //@PostConstruct
+    @Override
     public void scrape() throws IOException {
         Document document = Jsoup.connect(URL + INITIAL_CURRENCY).timeout(0).get();
         Element table = document.getElementById(TABLE_ID);
@@ -107,10 +108,10 @@ public final class CurrencyScraper {
                 // -------------------------- //
                 //this.rateService.save(rate);
             }
-            System.out.println(counter--);
+            this.consoleIO.write(counter--);
         }
-        System.out.println("Updating database...");
+        this.consoleIO.write("Updating database...");
         rates.forEach((key, value) -> value.values().forEach(r -> this.rateService.save(r)));
-        System.out.println("Done!");
+        this.consoleIO.write("Done!");
     }
 }

@@ -9,4 +9,6 @@ public interface CountryService {
     List<Country> findAllByCurrency(Currency currency);
 
     void save(Country country);
+
+    Country findByName(String name);
 }

@@ -1,9 +1,10 @@
-package com.devcamp.currencyconverter.scrapers;
+package com.devcamp.currencyconverter.tools.scrapers.impl;
 
 import com.devcamp.currencyconverter.entities.Country;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
+import com.devcamp.currencyconverter.tools.scrapers.api.Scraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,13 +12,12 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class CountriesScraper {
+public class CountriesScraper implements Scraper {
 
     private static final String URL = "http://www.exchange-rate.com/currency-list.html";
     private static final String TABLE_TAG = "table";
@@ -35,6 +35,7 @@ public class CountriesScraper {
     }
 
     //@PostConstruct
+    @Override
     public void scrape() throws IOException {
 
         Document document = Jsoup.connect(URL).timeout(0).get();

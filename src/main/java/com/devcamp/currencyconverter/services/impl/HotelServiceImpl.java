@@ -26,4 +26,9 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> findAllAvailableHotels(Double price, Currency currency){
         return this.hotelRepository.getAllAvailableHotels(price, currency.getId());
     }
+
+    @Override
+    public void save(Hotel hotel) {
+        this.hotelRepository.saveAndFlush(hotel);
+    }
 }

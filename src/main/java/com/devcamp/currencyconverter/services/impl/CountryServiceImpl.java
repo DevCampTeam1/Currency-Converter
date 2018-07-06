@@ -30,4 +30,9 @@ public class CountryServiceImpl implements CountryService {
     public void save(Country country) {
         this.countryRepository.saveAndFlush(country);
     }
+
+    @Override
+    public Country findByName(String name) {
+        return this.countryRepository.findByName(name);
+    }
 }

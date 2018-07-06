@@ -5,7 +5,7 @@ import com.devcamp.currencyconverter.constants.Currencies;
 import com.devcamp.currencyconverter.constants.ErrorMessages;
 import com.devcamp.currencyconverter.constants.Placeholders;
 import com.devcamp.currencyconverter.constants.Templates;
-import com.devcamp.currencyconverter.converters.LocConverter;
+import com.devcamp.currencyconverter.tools.converters.impl.LocConverter;
 import com.devcamp.currencyconverter.entities.Country;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Hotel;
@@ -56,7 +56,7 @@ public class IndexController {
 
         List<List<Rate>> top8Rates = this.cache.getTop8Rates();
         BigDecimal resultInLoc = this.locConverter.convert(rate, target)
-                .setScale(Currencies.DECIMAL_SCALE,  RoundingMode.HALF_UP);
+                .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
 
         this.addAttributes(model, currencies, Currencies.DEFAULT_SOURCE_CURRENCY, Currencies.DEFAULT_TARGET_CURRENCY
                 , Currencies.DEFAULT_SUM, rate, resultInLoc, top8Rates, null);
@@ -70,28 +70,43 @@ public class IndexController {
             , @RequestParam String sum) {
 
         List<Currency> currencies = this.cache.getAllCurrencies();
+        List<List<Rate>> top8Rates = this.cache.getTop8Rates();
         Currency source = this.currencyService.getCurrency(sourceCurrency);
         Currency target = this.currencyService.getCurrency(targetCurrency);
 
-        BigDecimal result = validateInput(model, sum, source, target);
-        BigDecimal resultInLoc = this.locConverter.convert(result, target)
-                .setScale(Currencies.DECIMAL_SCALE,  RoundingMode.HALF_UP);
+        if (source == null || target == null || !sumIsValid(sum)) {
+            if (source == null) {
+                model.addAttribute(Placeholders.INVALID_SOURCE_CURRENCY_MESSAGE, ErrorMessages.INVALID_CURRENCY);
+            }
+            if (target == null) {
+                model.addAttribute(Placeholders.INVALID_TARGET_CURRENCY_MESSAGE, ErrorMessages.INVALID_CURRENCY);
+            }
+            if (!sumIsValid(sum)) {
+                model.addAttribute(Placeholders.INVALID_SUM_MESSAGE, ErrorMessages.INVALID_SUM);
+            }
+            this.addAttributes(model, currencies, sourceCurrency, targetCurrency, sum
+                    , BigDecimal.ZERO, BigDecimal.ZERO, top8Rates, null);
+            return Templates.BASE;
+        }
 
+        Rate rate = this.rateService.getRate(source, target);
+        BigDecimal result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum))
+                .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
+        BigDecimal resultInLoc = this.locConverter.convert(result, target);
 
         List<Hotel> hotels = null;
         List<Country> country = this.countryService.findAllByCurrency(target);
-        if (country != null){
+        if (country != null) {
             hotels = this.hotelService.findAllAvailableHotels(resultInLoc.doubleValue(), target);
             hotels.forEach(h -> h.setNights(resultInLoc.doubleValue()));
         }
 
-        List<List<Rate>> top8Rates = this.cache.getTop8Rates();
         this.addAttributes(model, currencies, sourceCurrency, targetCurrency, sum, result
-                , resultInLoc,top8Rates, hotels);
+                , resultInLoc, top8Rates, hotels);
         return Templates.BASE;
     }
 
-    private void addAttributes(Model model, List<Currency> currencies, String sourceCurrency,String targetCurrency
+    private void addAttributes(Model model, List<Currency> currencies, String sourceCurrency, String targetCurrency
             , Object sum, BigDecimal rate, BigDecimal resultInLoc, List<List<Rate>> top8Rates, List<Hotel> hotels) {
 
         model.addAttribute(Placeholders.TOP_10_RATES, top8Rates);
@@ -105,27 +120,11 @@ public class IndexController {
         model.addAttribute(Placeholders.VIEW, Templates.INDEX);
     }
 
-    private BigDecimal validateInput(Model model, @RequestParam String sum, Currency source, Currency target) {
-        BigDecimal result = BigDecimal.ZERO;
-        if (source == null) {
-            model.addAttribute(Placeholders.INVALID_SOURCE_CURRENCY_MESSAGE, ErrorMessages.INVALID_CURRENCY);
+    private boolean sumIsValid(String sum) {
+        try {
+            return Double.parseDouble(sum) > 0;
+        } catch (NumberFormatException e) {
+            return false;
         }
-        if (target == null) {
-            model.addAttribute(Placeholders.INVALID_TARGET_CURRENCY_MESSAGE, ErrorMessages.INVALID_CURRENCY);
-        }
-        if (source != null && target != null) {
-            if (sumIsNegative(sum)) {
-                model.addAttribute(Placeholders.INVALID_SUM_MESSAGE, ErrorMessages.INVALID_SUM);
-            } else {
-                Rate rate = this.rateService.getRate(source, target);
-                result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum))
-                        .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
-            }
-        }
-        return result;
-    }
-
-    private boolean sumIsNegative(@RequestParam String sum) {
-        return new BigDecimal(sum).compareTo(BigDecimal.ZERO) < 0;
     }
 }

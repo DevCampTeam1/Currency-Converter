@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Long> {
     List<Country> findAllByCurrency(Currency currency);
+
+    Country findByName(String name);
 }

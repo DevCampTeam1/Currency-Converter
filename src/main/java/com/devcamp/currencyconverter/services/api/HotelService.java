@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface HotelService {
     List<Hotel> findAllAvailableHotels(Double price, Currency currency);
+
+    void save(Hotel hotel);
 }
