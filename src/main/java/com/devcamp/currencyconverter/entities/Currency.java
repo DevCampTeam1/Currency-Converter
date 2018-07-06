@@ -1,6 +1,8 @@
 package com.devcamp.currencyconverter.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "currencies")
@@ -12,10 +14,15 @@ public class Currency {
     @Column(name = "code", unique = true)
     private String code;
 
+    @OneToMany(mappedBy = "currency")
+    private List<Country> countries;
+
     public Currency() {
+        this.countries = new ArrayList<>();
     }
 
     public Currency(String code) {
+        this.countries = new ArrayList<>();
         this.code = code;
     }
 

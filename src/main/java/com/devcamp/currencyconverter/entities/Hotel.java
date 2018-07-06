@@ -22,6 +22,10 @@ public class Hotel {
     @Column(name = "picture_url")
     private String pictureUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    private Country country;
+
     @Transient
     private String totalNights;
 

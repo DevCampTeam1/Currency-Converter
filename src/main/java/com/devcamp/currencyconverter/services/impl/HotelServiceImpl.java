@@ -1,5 +1,6 @@
 package com.devcamp.currencyconverter.services.impl;
 
+import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Hotel;
 import com.devcamp.currencyconverter.repositories.HotelRepository;
 import com.devcamp.currencyconverter.services.api.HotelService;
@@ -20,8 +21,9 @@ public class HotelServiceImpl implements HotelService {
         this.hotelRepository = hotelRepository;
     }
 
+
     @Override
-    public List<Hotel> findAllAvailableHotels(Double price) {
-        return this.hotelRepository.findByPriceLessThanEqual(price);
+    public List<Hotel> findAllAvailableHotels(Double price, Currency currency){
+        return this.hotelRepository.getAllAvailableHotels(price, currency.getId());
     }
 }

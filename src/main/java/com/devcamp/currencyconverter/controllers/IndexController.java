@@ -6,9 +6,11 @@ import com.devcamp.currencyconverter.constants.ErrorMessages;
 import com.devcamp.currencyconverter.constants.Placeholders;
 import com.devcamp.currencyconverter.constants.Templates;
 import com.devcamp.currencyconverter.converters.LocConverter;
+import com.devcamp.currencyconverter.entities.Country;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Hotel;
 import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.HotelService;
 import com.devcamp.currencyconverter.services.api.RateService;
@@ -29,14 +31,16 @@ public class IndexController {
     private RateService rateService;
     private CurrencyService currencyService;
     private HotelService hotelService;
+    private CountryService countryService;
     private LocConverter locConverter;
     private Cache cache;
 
     @Autowired
-    public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService, LocConverter locConverter, Cache cache) {
+    public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService, LocConverter locConverter, Cache cache, CountryService countryService) {
         this.rateService = rateService;
         this.currencyService = currencyService;
         this.hotelService = hotelService;
+        this.countryService = countryService;
         this.locConverter = locConverter;
         this.cache = cache;
     }
@@ -54,7 +58,8 @@ public class IndexController {
         BigDecimal resultInLoc = this.locConverter.convert(rate, target)
                 .setScale(Currencies.DECIMAL_SCALE,  RoundingMode.HALF_UP);
 
-        this.addAttributes(model, currencies, rate, resultInLoc, top8Rates);
+        this.addAttributes(model, currencies, Currencies.DEFAULT_SOURCE_CURRENCY, Currencies.DEFAULT_TARGET_CURRENCY
+                , Currencies.DEFAULT_SUM, rate, resultInLoc, top8Rates, null);
         return Templates.BASE;
     }
 
@@ -72,25 +77,31 @@ public class IndexController {
         BigDecimal resultInLoc = this.locConverter.convert(result, target)
                 .setScale(Currencies.DECIMAL_SCALE,  RoundingMode.HALF_UP);
 
-        List<Hotel> hotels = this.hotelService.findAllAvailableHotels(resultInLoc.doubleValue());
-        hotels.forEach(h -> h.setNights(resultInLoc.doubleValue()));
+
+        List<Hotel> hotels = null;
+        List<Country> country = this.countryService.findAllByCurrency(target);
+        if (country != null){
+            hotels = this.hotelService.findAllAvailableHotels(resultInLoc.doubleValue(), target);
+            hotels.forEach(h -> h.setNights(resultInLoc.doubleValue()));
+        }
 
         List<List<Rate>> top8Rates = this.cache.getTop8Rates();
-        this.addAttributes(model, currencies, result, resultInLoc,top8Rates);
-        model.addAttribute(Placeholders.HOTELS, hotels);
-        model.addAttribute(Placeholders.INPUT_SUM, sum);
+        this.addAttributes(model, currencies, sourceCurrency, targetCurrency, sum, result
+                , resultInLoc,top8Rates, hotels);
         return Templates.BASE;
     }
 
-    private void addAttributes(Model model, List<Currency> currencies, BigDecimal rate
-            , BigDecimal resultInLoc, List<List<Rate>> top8Rates) {
+    private void addAttributes(Model model, List<Currency> currencies, String sourceCurrency,String targetCurrency
+            , Object sum, BigDecimal rate, BigDecimal resultInLoc, List<List<Rate>> top8Rates, List<Hotel> hotels) {
+
         model.addAttribute(Placeholders.TOP_10_RATES, top8Rates);
-        model.addAttribute(Placeholders.SOURCE_CURRENCY, Currencies.DEFAULT_SOURCE_CURRENCY);
-        model.addAttribute(Placeholders.TARGET_CURRENCY, Currencies.DEFAULT_TARGET_CURRENCY);
+        model.addAttribute(Placeholders.SOURCE_CURRENCY, sourceCurrency);
+        model.addAttribute(Placeholders.TARGET_CURRENCY, targetCurrency);
         model.addAttribute(Placeholders.CURRENCIES, currencies);
-        model.addAttribute(Placeholders.INPUT_SUM, Currencies.DEFAULT_SUM);
+        model.addAttribute(Placeholders.INPUT_SUM, sum);
         model.addAttribute(Placeholders.RESULT, rate);
         model.addAttribute(Placeholders.RESULT_LOC, resultInLoc);
+        model.addAttribute(Placeholders.HOTELS, hotels);
         model.addAttribute(Placeholders.VIEW, Templates.INDEX);
     }
 
