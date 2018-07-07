@@ -17,7 +17,7 @@ import java.io.IOException;
 public class HotelSeeder implements Seeder {
 
     private static final String PATH = "/static/db-seed/hotels";
-    private static final String SPLIT_DELIMITER = "/static/db-seed/hotels";
+    private static final String SPLIT_DELIMITER = " - ";
 
     private static final int COUNTRY_NAME_INDEX = 0;
     private static final int HOTEL_TITLE_INDEX = 1;

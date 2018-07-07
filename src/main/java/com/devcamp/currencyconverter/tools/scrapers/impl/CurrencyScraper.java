@@ -113,6 +113,6 @@ public final class CurrencyScraper implements Scraper {
         }
         this.consoleIO.write(ConsoleMessages.UPDATING_DATABASE);
         rates.forEach((key, value) -> value.values().forEach(r -> this.rateService.save(r)));
-        this.consoleIO.write(ConsoleMessages.UPDATING_DATABASE);
+        this.consoleIO.write(ConsoleMessages.FINISHED);
     }
 }
