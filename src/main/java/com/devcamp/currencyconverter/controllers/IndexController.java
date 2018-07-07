@@ -51,7 +51,7 @@ public class IndexController {
         Currency source = this.currencyService.getCurrency(Currencies.DEFAULT_SOURCE_CURRENCY);
         Currency target = this.currencyService.getCurrency(Currencies.DEFAULT_TARGET_CURRENCY);
 
-        BigDecimal rate = BigDecimal.valueOf(this.rateService.getRate(source, target).getRate())
+        BigDecimal rate = this.rateService.getRate(source, target).getRate()
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
 
         List<List<Rate>> top8Rates = this.cache.getTop8Rates();
@@ -90,7 +90,7 @@ public class IndexController {
         }
 
         Rate rate = this.rateService.getRate(source, target);
-        BigDecimal result = new BigDecimal(rate.getRate()).multiply(new BigDecimal(sum))
+        BigDecimal result = rate.getRate().multiply(new BigDecimal(sum))
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
         BigDecimal resultInLoc = this.locConverter.convert(result, target);
 

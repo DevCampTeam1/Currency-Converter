@@ -1,6 +1,7 @@
 package com.devcamp.currencyconverter.entities;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "rates")
@@ -18,12 +19,12 @@ public class Rate {
     private Currency targetCurrency;
 
     @Column(name = "rate", nullable = false)
-    private Double rate;
+    private BigDecimal rate;
 
     public Rate() {
     }
 
-    public Rate(Currency currencyCode, Currency currencyName, Double rate) {
+    public Rate(Currency currencyCode, Currency currencyName, BigDecimal rate) {
         this.sourceCurrency = currencyCode;
         this.targetCurrency = currencyName;
         this.rate = rate;
@@ -53,11 +54,11 @@ public class Rate {
         this.targetCurrency = targetCurrencyCode;
     }
 
-    public Double getRate() {
+    public BigDecimal getRate() {
         return this.rate;
     }
 
-    public void setRate(Double rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 }

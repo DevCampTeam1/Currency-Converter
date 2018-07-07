@@ -32,9 +32,9 @@ public class LocConverter implements Converter {
             return sum;
         }
         Currency usdCurrency = this.currencyService.getCurrency(Currencies.DEFAULT_TARGET_CURRENCY);
-        Double rateToUSD = this.rateService.getRate(currency, usdCurrency).getRate();
+        BigDecimal rateToUSD = this.rateService.getRate(currency, usdCurrency).getRate();
 
-        return BigDecimal.valueOf(rateToUSD).multiply(sum)
+        return rateToUSD.multiply(sum)
                 .divide(BigDecimal.valueOf(USD_TO_LOCK_RATE), RoundingMode.HALF_UP)
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
     }

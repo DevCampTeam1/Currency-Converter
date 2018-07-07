@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public final class CurrencyScraper implements Scraper {
     private static final String URL = "https://www.xe.com/currencytables/?from=";
     private static final String TABLE_ID = "historicalRateTbl";
     private static final String TABLE_BODY_TAG = "tbody";
+    private static final int URLS_COUNT = 166;
     private static final int CURRENCY_CODE_INDEX = 0;
     private static final int CURRENCY_RATE_INDEX = 2;
     private static final String INITIAL_CURRENCY = "USD";
@@ -72,7 +74,7 @@ public final class CurrencyScraper implements Scraper {
                 rates.get(r.getSourceCurrency().getCode()).put(r.getTargetCurrency().getCode(), r)
         );
 
-        int counter = 166;
+        int counter = URLS_COUNT;
         for (String currencyCode : allCurrencyCodes) {
             document = Jsoup.connect(URL + currencyCode).timeout(0).get();
             table = document.getElementById(TABLE_ID);
@@ -88,7 +90,7 @@ public final class CurrencyScraper implements Scraper {
             for (Element row : rows) {
                 Elements cols = row.children();
                 String secondCurrencyCode = cols.get(CURRENCY_CODE_INDEX).text();
-                Double rateValue = Double.valueOf(cols.get(CURRENCY_RATE_INDEX).text());
+                BigDecimal rateValue = new BigDecimal(cols.get(CURRENCY_RATE_INDEX).text());
 
                 // If database does not exist //
                 // -------------------------- //

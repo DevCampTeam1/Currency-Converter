@@ -37,7 +37,6 @@ public class HotelSeeder implements Seeder {
     }
 
     @Override
-    @PostConstruct
     public void seedData() {
         try {
             String text = this.fileIO.read(PATH);

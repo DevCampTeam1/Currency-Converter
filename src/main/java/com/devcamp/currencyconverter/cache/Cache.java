@@ -27,7 +27,6 @@ public class Cache {
         this.currencyService = currencyService;
     }
 
-    @PostConstruct
     public void initiate() {
         this.top8Rates = this.rateService.getTop8CurrenciesRates().stream()
                 .collect(Collectors.groupingBy(Rate::getSourceCurrency))
@@ -38,7 +37,6 @@ public class Cache {
                 .collect(Collectors.toList());
 
         this.allCurrencies = this.currencyService.findAll();
-
     }
 
     public List<List<Rate>> getTop8Rates() {
