@@ -59,7 +59,8 @@ main section {
     main section form #result:focus, main section form #result-loc:focus {
       box-shadow: none; }
     main section form input, main section form select {
-      color: #18505A !important; }
+      color: #18505A !important;
+      font-weight: 500; }
     main section form input, main section form select, main section form button {
       margin: 3px 0; }
     main section form #sum {

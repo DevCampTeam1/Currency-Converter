@@ -13,7 +13,6 @@ import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.HotelService;
 import com.devcamp.currencyconverter.services.api.RateService;
-import com.devcamp.currencyconverter.tools.mapper.api.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
