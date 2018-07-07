@@ -35,8 +35,8 @@ public class InitializerImpl implements Initializer {
     @PostConstruct
     public void initialize() throws IOException {
         //this.currencyScraper.scrape();
-        //this.countriesScraper.scrape();
-        //this.hotelSeeder.seedData();
+        this.countriesScraper.scrape();
+        this.hotelSeeder.seedData();
         this.cache.initiate();
     }
 }

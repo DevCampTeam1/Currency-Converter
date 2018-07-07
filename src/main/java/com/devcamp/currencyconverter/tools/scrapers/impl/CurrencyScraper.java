@@ -13,11 +13,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.devcamp.currencyconverter.entities.Currency;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component(value = Qualifiers.CURRENCY_SCRAPER)
 public final class CurrencyScraper implements Scraper {
@@ -56,14 +58,14 @@ public final class CurrencyScraper implements Scraper {
             allCurrencyCodes.add(code);
             // If database does not exist //
             // -------------------------- //
-            // this.currencyService.save(new Currency(code));
+             this.currencyService.save(new Currency(code));
             // -------------------------- //
         }
 
         // If database does not exist //
         // -------------------------- //
-        // Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
-        //        .collect(Collectors.groupingBy(Currency::getCode));
+         Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
+                .collect(Collectors.groupingBy(Currency::getCode));
         // -------------------------- //
 
         Map<String, Map<String, Rate>> rates = new HashMap<>();
@@ -82,8 +84,8 @@ public final class CurrencyScraper implements Scraper {
             rows = tableBody.children();
 
             // If database does not exist //
-            // -------------------------- //
-            // Currency source = allCurrencies.get(currencyCode).get(0);
+             //-------------------------- //
+             Currency source = allCurrencies.get(currencyCode).get(0);
             // -------------------------- //
             Map<String, Rate> currentRates = rates.get(currencyCode);
 
@@ -94,22 +96,22 @@ public final class CurrencyScraper implements Scraper {
 
                 // If database does not exist //
                 // -------------------------- //
-                // Currency target = allCurrencies.get(secondCurrencyCode).get(0);
+                 Currency target = allCurrencies.get(secondCurrencyCode).get(0);
                 // -------------------------- //
 
                 Rate rate = currentRates.get(secondCurrencyCode);
 
                 // If database does not exist //
                 // -------------------------- //
-                // if (rate == null) {
-                //     rate = new Rate(source, target, rateValue);
-                // } else {
+                 if (rate == null) {
+                     rate = new Rate(source, target, rateValue);
+                 } else {
                 // -------------------------- //
                 rate.setRate(rateValue);
                 // -------------------------- //
-                // }
+                 }
                 // -------------------------- //
-                //this.rateService.save(rate);
+                this.rateService.save(rate);
             }
             this.consoleIO.write(counter--);
         }
