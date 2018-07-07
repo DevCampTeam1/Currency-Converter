@@ -160,6 +160,9 @@ main aside {
 @media all and (max-width: 590px) {
   main > section #top8table > table {
     font-size: 13px; } }
+@media all and (max-width: 575px) {
+  main > aside .hotel-box {
+    height: auto; } }
 @media all and (max-width: 540px) {
   main section {
     padding-top: 30px; }

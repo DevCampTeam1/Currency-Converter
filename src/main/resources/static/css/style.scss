@@ -205,6 +205,12 @@ main {
   }
 }
 
+@media all and (max-width: 575px) {
+  main >  aside .hotel-box{
+    height: auto;
+  }
+}
+
 @media all and (max-width: 540px) {
   main {
     section {
