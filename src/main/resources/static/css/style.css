@@ -3,7 +3,7 @@
   padding: 0; }
 
 header {
-  background: #F1F1DE; }
+  background: #A8A8A8; }
 
 footer {
   background: #223843; }
@@ -79,6 +79,12 @@ main section {
         background-color: #F1F1FF; }
       main section #top8table table td, main section #top8table table th {
         border: none; }
+      main section #top8table table .fa-angle-up {
+        color: #1aff1a;
+        font-weight: bold; }
+      main section #top8table table .fa-angle-down {
+        color: #ff1a1a;
+        font-weight: bold; }
       main section #top8table table .table-heading {
         font-style: italic;
         padding-left: 15px; }

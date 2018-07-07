@@ -107,6 +107,12 @@ public final class CurrencyScraper implements Scraper {
                      rate = new Rate(source, target, rateValue);
                  } else {
                 // -------------------------- //
+                int comp = rate.getRate().compareTo(rateValue);
+                if (comp < 0) {
+                    rate.setRateHasDropped(true);
+                } else if (comp > 0) {
+                    rate.setRateHasDropped(false);
+                }
                 rate.setRate(rateValue);
                 // -------------------------- //
                  }

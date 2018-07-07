@@ -4,7 +4,7 @@
 }
 
 header {
-  background: #F1F1DE;
+  background: #A8A8A8;
 }
 
 footer {
@@ -95,6 +95,14 @@ main {
         }
         td, th {
           border: none;
+        }
+        .fa-angle-up {
+          color: #1aff1a;
+          font-weight: bold;
+        }
+        .fa-angle-down {
+          color: #ff1a1a;
+          font-weight: bold;
         }
         .table-heading {
           font-style: italic;

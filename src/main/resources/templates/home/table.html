@@ -10,7 +10,13 @@
         <tbody>
         <tr th:each="list : ${top8rates}">
             <th class="table-heading" th:text="${list[1].sourceCurrency.code}"></th>
-            <td th:each="rate : ${list}" th:text="${rate.rate}"></td>
+            <td th:each="rate : ${list}">
+                <span th:text="${rate.rate}"></span>
+                <span th:if="${rate.rateHasDropped != null}">
+                    <i th:if="${rate.rateHasDropped} == true" class="fa fa-angle-up"></i>
+                    <i th:if="${rate.rateHasDropped} == false" class="fa fa-angle-down"></i>
+                </span>
+            </td>
         </tr>
         </tbody>
     </table>
