@@ -39,7 +39,7 @@ public class LocConverter implements Converter {
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
     }
 
-    public void setLocToUsdRate(BigDecimal locToUsdRate){
+    public void setLocToUsdRate(BigDecimal locToUsdRate) {
         this.locToUsdRate = locToUsdRate;
     }
 }

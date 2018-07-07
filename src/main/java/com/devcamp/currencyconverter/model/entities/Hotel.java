@@ -26,9 +26,6 @@ public class Hotel {
     @JoinColumn(name = "country_id", referencedColumnName = "id")
     private Country country;
 
-    @Transient
-    private String totalNights;
-
     public Hotel() {
     }
 
@@ -78,20 +75,5 @@ public class Hotel {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
-    }
-
-    public String getTotalNights() {
-        return this.totalNights;
-    }
-
-    public void setNights(Double sum) {
-        int totalNights = (int) (sum / this.price);
-        if (totalNights == 1) {
-            this.totalNights = " 1 night.";
-        } else if (totalNights <= 14) {
-            this.totalNights = " " + String.valueOf(totalNights) + " nights.";
-        } else {
-            this.totalNights = " 14+ nights.";
-        }
     }
 }

@@ -1,13 +1,18 @@
 package com.devcamp.currencyconverter.services.impl;
 
+import com.devcamp.currencyconverter.constants.Qualifiers;
 import com.devcamp.currencyconverter.model.entities.Currency;
 import com.devcamp.currencyconverter.model.entities.Hotel;
+import com.devcamp.currencyconverter.model.views.HotelView;
 import com.devcamp.currencyconverter.repositories.HotelRepository;
 import com.devcamp.currencyconverter.services.api.HotelService;
+import com.devcamp.currencyconverter.tools.mapper.api.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -15,16 +20,21 @@ import java.util.List;
 public class HotelServiceImpl implements HotelService {
 
     private HotelRepository hotelRepository;
+    private Mapper mapper;
 
     @Autowired
-    public HotelServiceImpl(HotelRepository hotelRepository) {
+    public HotelServiceImpl(HotelRepository hotelRepository
+            , @Qualifier(Qualifiers.MODEL_MAPPER) Mapper mapper) {
         this.hotelRepository = hotelRepository;
+        this.mapper = mapper;
     }
 
 
     @Override
-    public List<Hotel> findAllAvailableHotels(Double price, Currency currency) {
-        return this.hotelRepository.getAllAvailableHotels(price, currency.getId());
+    public List<HotelView> findAllAvailableHotels(Double price, Currency currency) {
+        List<Hotel> hotels = this.hotelRepository.getAllAvailableHotels(price, currency.getId());
+        HotelView[] hotelsView = this.mapper.convert(hotels, HotelView[].class);
+        return Arrays.asList(hotelsView);
     }
 
     @Override

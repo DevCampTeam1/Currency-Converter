@@ -1,6 +1,7 @@
 package com.devcamp.currencyconverter.model.views;
 
 import com.devcamp.currencyconverter.model.entities.Currency;
+
 import java.math.BigDecimal;
 
 public class RateView {

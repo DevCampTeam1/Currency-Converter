@@ -8,7 +8,6 @@ import com.devcamp.currencyconverter.model.views.RateView;
 import com.devcamp.currencyconverter.tools.converters.api.Converter;
 import com.devcamp.currencyconverter.model.entities.Country;
 import com.devcamp.currencyconverter.model.entities.Currency;
-import com.devcamp.currencyconverter.model.entities.Hotel;
 import com.devcamp.currencyconverter.model.entities.Rate;
 import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -37,19 +35,17 @@ public class IndexController {
     private CountryService countryService;
     private Converter locConverter;
     private Cache cache;
-    private Mapper mapper;
 
     @Autowired
     public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService
-            , @Qualifier(value = Qualifiers.LOC_CONVERTER) Converter locConverter, Cache cache
-            , CountryService countryService, @Qualifier(value = Qualifiers.MODEL_MAPPER) Mapper mapper) {
+            , @Qualifier(Qualifiers.LOC_CONVERTER) Converter locConverter, Cache cache
+            , CountryService countryService) {
         this.rateService = rateService;
         this.currencyService = currencyService;
         this.hotelService = hotelService;
         this.countryService = countryService;
         this.locConverter = locConverter;
         this.cache = cache;
-        this.mapper = mapper;
     }
 
     @GetMapping("/")
@@ -102,7 +98,7 @@ public class IndexController {
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
         BigDecimal resultInLoc = this.locConverter.convert(result, target);
 
-        List<Hotel> hotels = null;
+        List<HotelView> hotels = null;
         List<Country> country = this.countryService.findAllByCurrency(target);
         if (country != null) {
             hotels = this.hotelService.findAllAvailableHotels(resultInLoc.doubleValue(), target);
@@ -115,12 +111,7 @@ public class IndexController {
     }
 
     private void addAttributes(Model model, List<CurrencyView> currencies, String sourceCurrency, String targetCurrency
-            , Object sum, BigDecimal rate, BigDecimal resultInLoc, List<List<RateView>> top8Rates, List<Hotel> hotels) {
-
-        List<HotelView> hotelsView = null;
-        if (hotels != null) {
-            hotelsView = Arrays.asList(this.mapper.convert(hotels, HotelView[].class));
-        }
+            , Object sum, BigDecimal rate, BigDecimal resultInLoc, List<List<RateView>> top8Rates, List<HotelView> hotels) {
 
         model.addAttribute(Placeholders.TOP_10_RATES, top8Rates);
         model.addAttribute(Placeholders.SOURCE_CURRENCY, sourceCurrency);
@@ -129,7 +120,7 @@ public class IndexController {
         model.addAttribute(Placeholders.INPUT_SUM, sum);
         model.addAttribute(Placeholders.RESULT, rate);
         model.addAttribute(Placeholders.RESULT_LOC, resultInLoc);
-        model.addAttribute(Placeholders.HOTELS, hotelsView);
+        model.addAttribute(Placeholders.HOTELS, hotels);
         model.addAttribute(Placeholders.VIEW, Templates.INDEX);
     }
 

@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-2 col-sm-12">
-                <input type="number" min="0" class="form-control" th:value="${sum}" id="sum" placeholder="Sum"
+                <input type="text" class="form-control" th:value="${sum}" id="sum" placeholder="Sum"
                        name="sum"/>
                 <div th:if="${invalidSumMessage != null}">
                     <p class="error-message" th:text="${invalidSumMessage}"></p>

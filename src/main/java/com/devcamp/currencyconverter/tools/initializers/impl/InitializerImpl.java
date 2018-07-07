@@ -2,9 +2,7 @@ package com.devcamp.currencyconverter.tools.initializers.impl;
 
 import com.devcamp.currencyconverter.cache.Cache;
 import com.devcamp.currencyconverter.constants.Qualifiers;
-import com.devcamp.currencyconverter.model.entities.Rate;
 import com.devcamp.currencyconverter.model.views.CurrencyView;
-import com.devcamp.currencyconverter.model.views.RateView;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.RateLogService;
 import com.devcamp.currencyconverter.services.api.RateService;
@@ -19,15 +17,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class InitializerImpl implements Initializer {
 
+    private Seeder hotelSeeder;
     private Scraper currencyScraper;
     private Scraper countriesScraper;
     private Scraper locScraper;
-    private Seeder hotelSeeder;
     private Cache cache;
     private RateLogService rateLogService;
     private RateService rateService;
@@ -35,11 +32,11 @@ public class InitializerImpl implements Initializer {
     private Mapper mapper;
 
     @Autowired
-    public InitializerImpl(@Qualifier(value = Qualifiers.CURRENCY_SCRAPER) Scraper currencyScraper
-            , @Qualifier(value = Qualifiers.COUNTRIES_SCRAPER) Scraper countriesScraper
-            , @Qualifier(value = Qualifiers.LOC_SCRAPER) Scraper locScraper
-            , @Qualifier(value = Qualifiers.HOTEL_SEEDER) Seeder hotelSeeder
-            , @Qualifier(value = Qualifiers.MODEL_MAPPER) Mapper mapper
+    public InitializerImpl(@Qualifier(Qualifiers.CURRENCY_SCRAPER) Scraper currencyScraper
+            , @Qualifier(Qualifiers.COUNTRIES_SCRAPER) Scraper countriesScraper
+            , @Qualifier(Qualifiers.LOC_SCRAPER) Scraper locScraper
+            , @Qualifier(Qualifiers.HOTEL_SEEDER) Seeder hotelSeeder
+            , @Qualifier(Qualifiers.MODEL_MAPPER) Mapper mapper
             , Cache cache, RateLogService rateLogService
             , RateService rateService
             , CurrencyService currencyService) {

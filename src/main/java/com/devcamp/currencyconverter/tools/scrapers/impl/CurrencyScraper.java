@@ -64,8 +64,8 @@ public class CurrencyScraper implements Scraper {
 
         // If database does not exist //
         // -------------------------- //
-         Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
-                .collect(Collectors.groupingBy(Currency::getCode));
+        // Map<String, List<Currency>> allCurrencies = this.currencyService.findAll().stream()
+        //         .collect(Collectors.groupingBy(Currency::getCode));
         // -------------------------- //
 
         Map<String, Map<String, Rate>> rates = new HashMap<>();

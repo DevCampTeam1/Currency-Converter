@@ -1,7 +1,7 @@
 package com.devcamp.currencyconverter.services.impl;
 
+import com.devcamp.currencyconverter.constants.Rates;
 import com.devcamp.currencyconverter.model.entities.Currency;
-import com.devcamp.currencyconverter.model.entities.Rate;
 import com.devcamp.currencyconverter.model.entities.RateLog;
 import com.devcamp.currencyconverter.model.views.RateView;
 import com.devcamp.currencyconverter.repositories.RateLogRepository;
@@ -61,7 +61,7 @@ public class RateLogServiceImpl implements RateLogService {
         top8Rates.stream()
                 .flatMap(Collection::stream)
                 .forEach(rate -> {
-                    LocalDate date = LocalDate.now().minusDays(0);
+                    LocalDate date = LocalDate.now().minusDays(Rates.FLUCTUATION_DAYS_TO_LOOK_BEHIND);
                     RateLog rateLog = this.rateLogRepository.findBySourceCurrencyAndTargetCurrencyAndDate(
                             rate.getSourceCurrency(), rate.getTargetCurrency(), date);
                     if (rateLog != null) {

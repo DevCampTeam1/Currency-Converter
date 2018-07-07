@@ -50,7 +50,14 @@ public class HotelView {
         return this.totalNights;
     }
 
-    public void setTotalNights(String totalNights) {
-        this.totalNights = totalNights;
+    public void setNights(Double sum) {
+        int totalNights = (int) (sum / this.price);
+        if (totalNights == 1) {
+            this.totalNights = " 1 night.";
+        } else if (totalNights <= 14) {
+            this.totalNights = " " + String.valueOf(totalNights) + " nights.";
+        } else {
+            this.totalNights = " 14+ nights.";
+        }
     }
 }

@@ -26,7 +26,7 @@ public class RateServiceImpl implements RateService {
 
     @Autowired
     public RateServiceImpl(RateRepository currencyRepository
-            ,@Qualifier(value = Qualifiers.MODEL_MAPPER) Mapper mapper) {
+            , @Qualifier(Qualifiers.MODEL_MAPPER) Mapper mapper) {
         this.rateRepository = currencyRepository;
         this.mapper = mapper;
     }
