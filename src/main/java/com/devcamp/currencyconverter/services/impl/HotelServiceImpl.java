@@ -23,7 +23,7 @@ public class HotelServiceImpl implements HotelService {
 
 
     @Override
-    public List<Hotel> findAllAvailableHotels(Double price, Currency currency){
+    public List<Hotel> findAllAvailableHotels(Double price, Currency currency) {
         return this.hotelRepository.getAllAvailableHotels(price, currency.getId());
     }
 

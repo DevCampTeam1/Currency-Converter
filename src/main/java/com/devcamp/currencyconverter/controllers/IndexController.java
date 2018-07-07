@@ -1,11 +1,8 @@
 package com.devcamp.currencyconverter.controllers;
 
 import com.devcamp.currencyconverter.cache.Cache;
-import com.devcamp.currencyconverter.constants.Currencies;
-import com.devcamp.currencyconverter.constants.ErrorMessages;
-import com.devcamp.currencyconverter.constants.Placeholders;
-import com.devcamp.currencyconverter.constants.Templates;
-import com.devcamp.currencyconverter.tools.converters.impl.LocConverter;
+import com.devcamp.currencyconverter.constants.*;
+import com.devcamp.currencyconverter.tools.converters.api.Converter;
 import com.devcamp.currencyconverter.entities.Country;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.entities.Hotel;
@@ -15,6 +12,7 @@ import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.HotelService;
 import com.devcamp.currencyconverter.services.api.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,11 +30,13 @@ public class IndexController {
     private CurrencyService currencyService;
     private HotelService hotelService;
     private CountryService countryService;
-    private LocConverter locConverter;
+    private Converter locConverter;
     private Cache cache;
 
     @Autowired
-    public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService, LocConverter locConverter, Cache cache, CountryService countryService) {
+    public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService
+            , @Qualifier(value = Qualifiers.LOC_CONVERTER) Converter locConverter
+            , Cache cache, CountryService countryService) {
         this.rateService = rateService;
         this.currencyService = currencyService;
         this.hotelService = hotelService;

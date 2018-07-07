@@ -1,5 +1,6 @@
 package com.devcamp.currencyconverter.tools.scrapers.impl;
 
+import com.devcamp.currencyconverter.constants.Qualifiers;
 import com.devcamp.currencyconverter.entities.Country;
 import com.devcamp.currencyconverter.entities.Currency;
 import com.devcamp.currencyconverter.services.api.CountryService;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Component(value = Qualifiers.COUNTRIES_SCRAPER)
 public class CountriesScraper implements Scraper {
 
     private static final String URL = "http://www.exchange-rate.com/currency-list.html";
@@ -24,6 +25,11 @@ public class CountriesScraper implements Scraper {
     private static final String TABLE_BODY_TAG = "tbody";
     private static final String COUNTRY_NAME_TAG = "b";
     private static final String COUNTRY_CODE_TAG = "div";
+
+    private static final String SPLIT_DELIMITER = ",\\s+";
+    private static final int COUNTRY_NAME_INDEX = 0;
+    private static final int COUNTRY_CODE_INDEX = 2;
+
 
     private CountryService countryService;
     private CurrencyService currencyService;
@@ -34,7 +40,6 @@ public class CountriesScraper implements Scraper {
         this.currencyService = currencyService;
     }
 
-    //@PostConstruct
     @Override
     public void scrape() throws IOException {
 
@@ -48,8 +53,9 @@ public class CountriesScraper implements Scraper {
             Element row = rows.get(i);
 
             Elements columns = row.children();
-            String countryName = columns.get(0).getElementsByTag(COUNTRY_NAME_TAG).text().split(",\\s+")[0];
-            String currencyCode = columns.get(2).getElementsByTag(COUNTRY_CODE_TAG).text();
+            String countryName = columns.get(COUNTRY_NAME_INDEX).getElementsByTag(COUNTRY_NAME_TAG).text()
+                    .split(SPLIT_DELIMITER)[0];
+            String currencyCode = columns.get(COUNTRY_CODE_INDEX).getElementsByTag(COUNTRY_CODE_TAG).text();
 
             Currency currency = this.currencyService.getCurrency(currencyCode);
             if (currency != null) {

@@ -1,5 +1,7 @@
 package com.devcamp.currencyconverter.tools.scrapers.impl;
 
+import com.devcamp.currencyconverter.constants.ConsoleMessages;
+import com.devcamp.currencyconverter.constants.Qualifiers;
 import com.devcamp.currencyconverter.entities.Rate;
 import com.devcamp.currencyconverter.tools.io.api.ConsoleIO;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-@Component
+@Component(value = Qualifiers.CURRENCY_SCRAPER)
 public final class CurrencyScraper implements Scraper {
 
     private static final String URL = "https://www.xe.com/currencytables/?from=";
@@ -37,7 +39,6 @@ public final class CurrencyScraper implements Scraper {
         this.consoleIO = consoleIO;
     }
 
-    //@PostConstruct
     @Override
     public void scrape() throws IOException {
         Document document = Jsoup.connect(URL + INITIAL_CURRENCY).timeout(0).get();
@@ -110,8 +111,8 @@ public final class CurrencyScraper implements Scraper {
             }
             this.consoleIO.write(counter--);
         }
-        this.consoleIO.write("Updating database...");
+        this.consoleIO.write(ConsoleMessages.UPDATING_DATABASE);
         rates.forEach((key, value) -> value.values().forEach(r -> this.rateService.save(r)));
-        this.consoleIO.write("Done!");
+        this.consoleIO.write(ConsoleMessages.UPDATING_DATABASE);
     }
 }

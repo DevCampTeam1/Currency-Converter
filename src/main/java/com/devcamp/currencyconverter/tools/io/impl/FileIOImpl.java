@@ -1,6 +1,5 @@
 package com.devcamp.currencyconverter.tools.io.impl;
 
-
 import com.devcamp.currencyconverter.tools.io.api.FileIO;
 import org.springframework.stereotype.Component;
 

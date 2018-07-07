@@ -3,8 +3,17 @@
   padding: 0;
 }
 
+header {
+  background: #F1F1DE;
+}
+
+footer {
+  background: #223843;
+}
+
 footer, header {
-  background: #d87a61;
+  color: #d87a61;
+  text-align: center;
   height: 80px;
   clear: both;
   h1 {
@@ -21,7 +30,7 @@ main {
     display: inline-block;
     width: 75%;
     float: left;
-    height: 850px;
+    height: 900px;
     padding-top: 80px;
     form {
       width: 850px;
@@ -38,11 +47,11 @@ main {
         margin: 0;
         font-size: 14px;
       }
-      #result, #result-loc{
+      #result, #result-loc {
         height: calc(2.25rem + 2px) !important;
         background: #F5F0E0;
       }
-      #result:focus, #result-loc:focus{
+      #result:focus, #result-loc:focus {
         box-shadow: none;
       }
       input, select {
@@ -95,7 +104,7 @@ main {
     }
   }
   aside {
-    height: 850px;
+    height: 900px;
     width: 25%;
     display: inline-block;
     float: left;
@@ -175,7 +184,7 @@ main {
         table {
           td, th {
             padding: 4px 4px !important;
-            font-size: 14px;
+            font-size: 13px;
           }
         }
       }

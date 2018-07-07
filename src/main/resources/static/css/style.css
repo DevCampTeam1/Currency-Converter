@@ -2,8 +2,15 @@
   margin: 0;
   padding: 0; }
 
+header {
+  background: #F1F1DE; }
+
+footer {
+  background: #223843; }
+
 footer, header {
-  background: #d87a61;
+  color: #d87a61;
+  text-align: center;
   height: 80px;
   clear: both; }
   footer h1, header h1 {
@@ -17,7 +24,7 @@ main section {
   display: inline-block;
   width: 75%;
   float: left;
-  height: 850px;
+  height: 900px;
   padding-top: 80px; }
   main section form {
     width: 850px;
@@ -76,7 +83,7 @@ main section {
         font-style: italic;
         padding-left: 15px; }
 main aside {
-  height: 850px;
+  height: 900px;
   width: 25%;
   display: inline-block;
   float: left;
@@ -137,6 +144,6 @@ main aside {
       margin: 40px auto; }
       main section #top8table table td, main section #top8table table th {
         padding: 4px 4px !important;
-        font-size: 14px; } }
+        font-size: 13px; } }
 
 /*# sourceMappingURL=style.css.map */
