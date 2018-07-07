@@ -84,8 +84,9 @@ public class IndexController {
             if (!sumIsValid(sum)) {
                 model.addAttribute(Placeholders.INVALID_SUM_MESSAGE, ErrorMessages.INVALID_SUM);
             }
-            this.addAttributes(model, currencies, sourceCurrency, targetCurrency, sum
-                    , BigDecimal.ZERO, BigDecimal.ZERO, top8Rates, null);
+            this.addAttributes(model, currencies, Currencies.DEFAULT_SOURCE_CURRENCY
+                    , Currencies.DEFAULT_TARGET_CURRENCY, Currencies.DEFAULT_SUM, BigDecimal.ZERO
+                    , BigDecimal.ZERO, top8Rates, null);
             return Templates.BASE;
         }
 

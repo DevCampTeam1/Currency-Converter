@@ -4,11 +4,25 @@
 }
 
 header {
-  background: #A8A8A8;
+  background: rgb(250, 250, 250);
+  padding: 7px;
+  .logo-box{
+    background: url("../images/logo.jpg");
+    background-size: cover;
+    margin: 0 auto;
+    width: 280px;
+    height: 60px;
+    display: block;
+  }
 }
 
-footer {
+footer > footer {
   background: #223843;
+  padding: 15px 40px 0 5px;
+  text-align: right;
+  p{
+    margin: 0;
+  }
 }
 
 footer, header {
@@ -183,6 +197,12 @@ main {
   }
 }
 
+@media all and (max-width: 590px) {
+  main > section #top8table > table {
+    font-size: 13px;
+  }
+}
+
 @media all and (max-width: 540px) {
   main {
     section {
@@ -192,7 +212,9 @@ main {
         table {
           td, th {
             padding: 4px 4px !important;
-            font-size: 13px;
+            i{
+              display: none;
+            }
           }
         }
       }

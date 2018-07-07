@@ -3,10 +3,22 @@
   padding: 0; }
 
 header {
-  background: #A8A8A8; }
+  background: #fafafa;
+  padding: 7px; }
+  header .logo-box {
+    background: url("../images/logo.jpg");
+    background-size: cover;
+    margin: 0 auto;
+    width: 280px;
+    height: 60px;
+    display: block; }
 
-footer {
-  background: #223843; }
+footer > footer {
+  background: #223843;
+  padding: 15px 40px 0 5px;
+  text-align: right; }
+  footer > footer p {
+    margin: 0; }
 
 footer, header {
   color: #d87a61;
@@ -143,13 +155,17 @@ main aside {
       display: inline-block;
       height: 400px;
       vertical-align: top; } }
+@media all and (max-width: 590px) {
+  main > section #top8table > table {
+    font-size: 13px; } }
 @media all and (max-width: 540px) {
   main section {
     padding-top: 30px; }
     main section #top8table {
       margin: 40px auto; }
       main section #top8table table td, main section #top8table table th {
-        padding: 4px 4px !important;
-        font-size: 13px; } }
+        padding: 4px 4px !important; }
+        main section #top8table table td i, main section #top8table table th i {
+          display: none; } }
 
 /*# sourceMappingURL=style.css.map */
