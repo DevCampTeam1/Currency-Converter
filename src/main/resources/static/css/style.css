@@ -18,7 +18,8 @@ footer > footer {
   padding: 15px 40px 0 5px;
   text-align: right; }
   footer > footer p {
-    margin: 0; }
+    margin: 0;
+    font-weight: 600; }
 
 footer, header {
   color: #d87a61;

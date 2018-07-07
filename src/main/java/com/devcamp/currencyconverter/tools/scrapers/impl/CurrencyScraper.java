@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component(value = Qualifiers.CURRENCY_SCRAPER)
-public final class CurrencyScraper implements Scraper {
+public class CurrencyScraper implements Scraper {
 
     private static final String URL = "https://www.xe.com/currencytables/?from=";
     private static final String TABLE_ID = "historicalRateTbl";
@@ -58,7 +58,7 @@ public final class CurrencyScraper implements Scraper {
             allCurrencyCodes.add(code);
             // If database does not exist //
             // -------------------------- //
-             this.currencyService.save(new Currency(code));
+            // this.currencyService.save(new Currency(code));
             // -------------------------- //
         }
 
@@ -84,8 +84,8 @@ public final class CurrencyScraper implements Scraper {
             rows = tableBody.children();
 
             // If database does not exist //
-             //-------------------------- //
-             Currency source = allCurrencies.get(currencyCode).get(0);
+            // -------------------------- //
+            // Currency source = allCurrencies.get(currencyCode).get(0);
             // -------------------------- //
             Map<String, Rate> currentRates = rates.get(currencyCode);
 
@@ -96,16 +96,16 @@ public final class CurrencyScraper implements Scraper {
 
                 // If database does not exist //
                 // -------------------------- //
-                 Currency target = allCurrencies.get(secondCurrencyCode).get(0);
+                // Currency target = allCurrencies.get(secondCurrencyCode).get(0);
                 // -------------------------- //
 
                 Rate rate = currentRates.get(secondCurrencyCode);
 
                 // If database does not exist //
                 // -------------------------- //
-                 if (rate == null) {
-                     rate = new Rate(source, target, rateValue);
-                 } else {
+                // if (rate == null) {
+                //     rate = new Rate(source, target, rateValue);
+                // } else {
                 // -------------------------- //
                 int comp = rate.getRate().compareTo(rateValue);
                 if (comp < 0) {
@@ -115,7 +115,7 @@ public final class CurrencyScraper implements Scraper {
                 }
                 rate.setRate(rateValue);
                 // -------------------------- //
-                 }
+                // }
                 // -------------------------- //
                 this.rateService.save(rate);
             }

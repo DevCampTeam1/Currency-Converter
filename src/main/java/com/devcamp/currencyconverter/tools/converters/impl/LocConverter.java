@@ -15,7 +15,7 @@ import java.math.RoundingMode;
 @Component(value = Qualifiers.LOC_CONVERTER)
 public class LocConverter implements Converter {
 
-    private static final double USD_TO_LOCK_RATE = 0.82;
+    private BigDecimal locToUsdRate;
 
     private CurrencyService currencyService;
     private RateService rateService;
@@ -35,7 +35,11 @@ public class LocConverter implements Converter {
         BigDecimal rateToUSD = this.rateService.getRate(currency, usdCurrency).getRate();
 
         return rateToUSD.multiply(sum)
-                .divide(BigDecimal.valueOf(USD_TO_LOCK_RATE), RoundingMode.HALF_UP)
+                .divide(locToUsdRate, RoundingMode.HALF_UP)
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
+    }
+
+    public void setLocToUsdRate(BigDecimal locToUsdRate){
+        this.locToUsdRate = locToUsdRate;
     }
 }

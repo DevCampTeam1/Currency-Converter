@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,7 +45,13 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public List<Rate> getTop8CurrenciesRates() {
-        return this.rateRepository.getTop8CurrenciesRates();
+    public List<List<Rate>> getTop8CurrenciesRates() {
+        return this.rateRepository.getTop8CurrenciesRates().stream()
+                .collect(Collectors.groupingBy(Rate::getSourceCurrency))
+                .entrySet()
+                .stream()
+                .sorted(Comparator.comparing(a -> a.getKey().getId()))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 }

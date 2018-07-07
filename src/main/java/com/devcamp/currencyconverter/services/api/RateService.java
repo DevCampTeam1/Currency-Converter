@@ -14,5 +14,5 @@ public interface RateService {
 
     List<Rate> getAllWithSourceCurrency(Currency currency);
 
-    List<Rate> getTop8CurrenciesRates();
+    List<List<Rate>> getTop8CurrenciesRates();
 }
