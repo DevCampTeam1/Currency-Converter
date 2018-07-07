@@ -2,7 +2,7 @@ package com.devcamp.currencyconverter.tools.scrapers.impl;
 
 import com.devcamp.currencyconverter.constants.ConsoleMessages;
 import com.devcamp.currencyconverter.constants.Qualifiers;
-import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.model.entities.Rate;
 import com.devcamp.currencyconverter.tools.io.api.ConsoleIO;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.RateService;
@@ -13,7 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Currency;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -107,12 +107,6 @@ public class CurrencyScraper implements Scraper {
                 //     rate = new Rate(source, target, rateValue);
                 // } else {
                 // -------------------------- //
-                int comp = rate.getRate().compareTo(rateValue);
-                if (comp < 0) {
-                    rate.setRateHasDropped(true);
-                } else if (comp > 0) {
-                    rate.setRateHasDropped(false);
-                }
                 rate.setRate(rateValue);
                 // -------------------------- //
                 // }

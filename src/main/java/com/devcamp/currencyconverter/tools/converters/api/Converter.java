@@ -1,6 +1,6 @@
 package com.devcamp.currencyconverter.tools.converters.api;
 
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Currency;
 
 import java.math.BigDecimal;
 

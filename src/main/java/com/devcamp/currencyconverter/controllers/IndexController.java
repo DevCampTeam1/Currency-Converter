@@ -2,15 +2,19 @@ package com.devcamp.currencyconverter.controllers;
 
 import com.devcamp.currencyconverter.cache.Cache;
 import com.devcamp.currencyconverter.constants.*;
+import com.devcamp.currencyconverter.model.views.CurrencyView;
+import com.devcamp.currencyconverter.model.views.HotelView;
+import com.devcamp.currencyconverter.model.views.RateView;
 import com.devcamp.currencyconverter.tools.converters.api.Converter;
-import com.devcamp.currencyconverter.entities.Country;
-import com.devcamp.currencyconverter.entities.Currency;
-import com.devcamp.currencyconverter.entities.Hotel;
-import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.model.entities.Country;
+import com.devcamp.currencyconverter.model.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Hotel;
+import com.devcamp.currencyconverter.model.entities.Rate;
 import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.HotelService;
 import com.devcamp.currencyconverter.services.api.RateService;
+import com.devcamp.currencyconverter.tools.mapper.api.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -32,29 +37,31 @@ public class IndexController {
     private CountryService countryService;
     private Converter locConverter;
     private Cache cache;
+    private Mapper mapper;
 
     @Autowired
     public IndexController(RateService rateService, CurrencyService currencyService, HotelService hotelService
-            , @Qualifier(value = Qualifiers.LOC_CONVERTER) Converter locConverter
-            , Cache cache, CountryService countryService) {
+            , @Qualifier(value = Qualifiers.LOC_CONVERTER) Converter locConverter, Cache cache
+            , CountryService countryService, @Qualifier(value = Qualifiers.MODEL_MAPPER) Mapper mapper) {
         this.rateService = rateService;
         this.currencyService = currencyService;
         this.hotelService = hotelService;
         this.countryService = countryService;
         this.locConverter = locConverter;
         this.cache = cache;
+        this.mapper = mapper;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Currency> currencies = this.cache.getAllCurrencies();
+        List<CurrencyView> currencies = this.cache.getAllCurrencies();
         Currency source = this.currencyService.getCurrency(Currencies.DEFAULT_SOURCE_CURRENCY);
         Currency target = this.currencyService.getCurrency(Currencies.DEFAULT_TARGET_CURRENCY);
 
         BigDecimal rate = this.rateService.getRate(source, target).getRate()
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
 
-        List<List<Rate>> top8Rates = this.cache.getTop8Rates();
+        List<List<RateView>> top8Rates = this.cache.getTop8Rates();
         BigDecimal resultInLoc = this.locConverter.convert(rate, target)
                 .setScale(Currencies.DECIMAL_SCALE, RoundingMode.HALF_UP);
 
@@ -69,8 +76,8 @@ public class IndexController {
             , @RequestParam String targetCurrency
             , @RequestParam String sum) {
 
-        List<Currency> currencies = this.cache.getAllCurrencies();
-        List<List<Rate>> top8Rates = this.cache.getTop8Rates();
+        List<CurrencyView> currencies = this.cache.getAllCurrencies();
+        List<List<RateView>> top8Rates = this.cache.getTop8Rates();
         Currency source = this.currencyService.getCurrency(sourceCurrency);
         Currency target = this.currencyService.getCurrency(targetCurrency);
 
@@ -107,8 +114,13 @@ public class IndexController {
         return Templates.BASE;
     }
 
-    private void addAttributes(Model model, List<Currency> currencies, String sourceCurrency, String targetCurrency
-            , Object sum, BigDecimal rate, BigDecimal resultInLoc, List<List<Rate>> top8Rates, List<Hotel> hotels) {
+    private void addAttributes(Model model, List<CurrencyView> currencies, String sourceCurrency, String targetCurrency
+            , Object sum, BigDecimal rate, BigDecimal resultInLoc, List<List<RateView>> top8Rates, List<Hotel> hotels) {
+
+        List<HotelView> hotelsView = null;
+        if (hotels != null) {
+            hotelsView = Arrays.asList(this.mapper.convert(hotels, HotelView[].class));
+        }
 
         model.addAttribute(Placeholders.TOP_10_RATES, top8Rates);
         model.addAttribute(Placeholders.SOURCE_CURRENCY, sourceCurrency);
@@ -117,7 +129,7 @@ public class IndexController {
         model.addAttribute(Placeholders.INPUT_SUM, sum);
         model.addAttribute(Placeholders.RESULT, rate);
         model.addAttribute(Placeholders.RESULT_LOC, resultInLoc);
-        model.addAttribute(Placeholders.HOTELS, hotels);
+        model.addAttribute(Placeholders.HOTELS, hotelsView);
         model.addAttribute(Placeholders.VIEW, Templates.INDEX);
     }
 

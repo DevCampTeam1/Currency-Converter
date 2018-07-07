@@ -1,4 +1,4 @@
-package com.devcamp.currencyconverter.entities;
+package com.devcamp.currencyconverter.model.entities;
 
 import javax.persistence.*;
 

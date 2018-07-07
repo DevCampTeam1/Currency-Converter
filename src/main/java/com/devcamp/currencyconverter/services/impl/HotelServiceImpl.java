@@ -1,7 +1,7 @@
 package com.devcamp.currencyconverter.services.impl;
 
-import com.devcamp.currencyconverter.entities.Currency;
-import com.devcamp.currencyconverter.entities.Hotel;
+import com.devcamp.currencyconverter.model.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Hotel;
 import com.devcamp.currencyconverter.repositories.HotelRepository;
 import com.devcamp.currencyconverter.services.api.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;

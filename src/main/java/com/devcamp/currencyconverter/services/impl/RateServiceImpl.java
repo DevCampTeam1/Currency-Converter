@@ -1,10 +1,14 @@
 package com.devcamp.currencyconverter.services.impl;
 
-import com.devcamp.currencyconverter.entities.Currency;
-import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.constants.Qualifiers;
+import com.devcamp.currencyconverter.model.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Rate;
+import com.devcamp.currencyconverter.model.views.RateView;
 import com.devcamp.currencyconverter.repositories.RateRepository;
 import com.devcamp.currencyconverter.services.api.RateService;
+import com.devcamp.currencyconverter.tools.mapper.api.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,10 +22,13 @@ import java.util.stream.Collectors;
 public class RateServiceImpl implements RateService {
 
     private RateRepository rateRepository;
+    private Mapper mapper;
 
     @Autowired
-    public RateServiceImpl(RateRepository currencyRepository) {
+    public RateServiceImpl(RateRepository currencyRepository
+            ,@Qualifier(value = Qualifiers.MODEL_MAPPER) Mapper mapper) {
         this.rateRepository = currencyRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -45,9 +52,10 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
-    public List<List<Rate>> getTop8CurrenciesRates() {
+    public List<List<RateView>> getTop8CurrenciesRates() {
         return this.rateRepository.getTop8CurrenciesRates().stream()
-                .collect(Collectors.groupingBy(Rate::getSourceCurrency))
+                .map(r -> this.mapper.convert(r, RateView.class))
+                .collect(Collectors.groupingBy(RateView::getSourceCurrency))
                 .entrySet()
                 .stream()
                 .sorted(Comparator.comparing(a -> a.getKey().getId()))

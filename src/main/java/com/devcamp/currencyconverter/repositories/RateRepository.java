@@ -1,7 +1,7 @@
 package com.devcamp.currencyconverter.repositories;
 
-import com.devcamp.currencyconverter.entities.Currency;
-import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.model.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Rate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

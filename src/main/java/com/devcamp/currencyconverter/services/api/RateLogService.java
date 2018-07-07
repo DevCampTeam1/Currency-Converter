@@ -1,8 +1,8 @@
 package com.devcamp.currencyconverter.services.api;
 
-import com.devcamp.currencyconverter.entities.Currency;
-import com.devcamp.currencyconverter.entities.Rate;
-import com.devcamp.currencyconverter.entities.RateLog;
+import com.devcamp.currencyconverter.model.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.RateLog;
+import com.devcamp.currencyconverter.model.views.RateView;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +14,7 @@ public interface RateLogService {
 
     boolean shouldCreateLog(LocalDate date);
 
-    void logTop8Rates(List<List<Rate>> top8Rates);
+    void logTop8Rates(List<List<RateView>> top8Rates);
 
-    void markIfRatesHaveDropped(List<List<Rate>> top8Rates);
+    void markIfRatesHaveDropped(List<List<RateView>> top8Rates);
 }

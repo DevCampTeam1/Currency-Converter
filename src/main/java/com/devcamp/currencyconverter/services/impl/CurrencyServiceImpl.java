@@ -1,6 +1,6 @@
 package com.devcamp.currencyconverter.services.impl;
 
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Currency;
 import com.devcamp.currencyconverter.repositories.CurrencyRepository;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.devcamp.currencyconverter.tools.converters.impl;
 
 import com.devcamp.currencyconverter.constants.Currencies;
 import com.devcamp.currencyconverter.constants.Qualifiers;
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Currency;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.services.api.RateService;
 import com.devcamp.currencyconverter.tools.converters.api.Converter;

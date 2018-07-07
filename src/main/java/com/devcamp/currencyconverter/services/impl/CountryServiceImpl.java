@@ -1,7 +1,7 @@
 package com.devcamp.currencyconverter.services.impl;
 
-import com.devcamp.currencyconverter.entities.Country;
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Country;
+import com.devcamp.currencyconverter.model.entities.Currency;
 import com.devcamp.currencyconverter.repositories.CountryRepository;
 import com.devcamp.currencyconverter.services.api.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;

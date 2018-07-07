@@ -1,8 +1,8 @@
 package com.devcamp.currencyconverter.tools.seeders.impl;
 
 import com.devcamp.currencyconverter.constants.Qualifiers;
-import com.devcamp.currencyconverter.entities.Country;
-import com.devcamp.currencyconverter.entities.Hotel;
+import com.devcamp.currencyconverter.model.entities.Country;
+import com.devcamp.currencyconverter.model.entities.Hotel;
 import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.HotelService;
 import com.devcamp.currencyconverter.tools.io.api.FileIO;
@@ -10,7 +10,6 @@ import com.devcamp.currencyconverter.tools.seeders.api.Seeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 @Component(value = Qualifiers.HOTEL_SEEDER)

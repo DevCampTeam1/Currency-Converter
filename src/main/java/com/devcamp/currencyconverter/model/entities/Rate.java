@@ -1,12 +1,11 @@
-package com.devcamp.currencyconverter.entities;
+package com.devcamp.currencyconverter.model.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
-@Table(name = "rate_logs")
-public class RateLog {
+@Table(name = "rates")
+public class Rate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,20 +18,16 @@ public class RateLog {
     @JoinColumn(name = "target_currency_id", referencedColumnName = "id")
     private Currency targetCurrency;
 
-    @Column(name = "rate")
+    @Column(name = "rate", nullable = false)
     private BigDecimal rate;
 
-    @Column(name = "date")
-    private LocalDate date;
-
-    public RateLog() {
+    public Rate() {
     }
 
-    public RateLog(Currency sourceCurrency, Currency targetCurrency, BigDecimal rate, LocalDate date) {
-        this.sourceCurrency = sourceCurrency;
-        this.targetCurrency = targetCurrency;
+    public Rate(Currency currencyCode, Currency currencyName, BigDecimal rate) {
+        this.sourceCurrency = currencyCode;
+        this.targetCurrency = currencyName;
         this.rate = rate;
-        this.date = date;
     }
 
     public Long getId() {
@@ -47,16 +42,16 @@ public class RateLog {
         return this.sourceCurrency;
     }
 
-    public void setSourceCurrency(Currency sourceCurrency) {
-        this.sourceCurrency = sourceCurrency;
+    public void setSourceCurrency(Currency sourceCurrencyCode) {
+        this.sourceCurrency = sourceCurrencyCode;
     }
 
     public Currency getTargetCurrency() {
         return this.targetCurrency;
     }
 
-    public void setTargetCurrency(Currency targetCurrency) {
-        this.targetCurrency = targetCurrency;
+    public void setTargetCurrency(Currency targetCurrencyCode) {
+        this.targetCurrency = targetCurrencyCode;
     }
 
     public BigDecimal getRate() {
@@ -65,13 +60,5 @@ public class RateLog {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
-    }
-
-    public LocalDate getDate() {
-        return this.date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 }

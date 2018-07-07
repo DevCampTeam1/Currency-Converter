@@ -1,7 +1,7 @@
 package com.devcamp.currencyconverter.services.api;
 
-import com.devcamp.currencyconverter.entities.Country;
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Country;
+import com.devcamp.currencyconverter.model.entities.Currency;
 
 import java.util.List;
 

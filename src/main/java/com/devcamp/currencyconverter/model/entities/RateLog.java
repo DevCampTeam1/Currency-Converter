@@ -1,11 +1,12 @@
-package com.devcamp.currencyconverter.entities;
+package com.devcamp.currencyconverter.model.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "rates")
-public class Rate {
+@Table(name = "rate_logs")
+public class RateLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,19 +19,20 @@ public class Rate {
     @JoinColumn(name = "target_currency_id", referencedColumnName = "id")
     private Currency targetCurrency;
 
-    @Column(name = "rate", nullable = false)
+    @Column(name = "rate")
     private BigDecimal rate;
 
-    @Transient
-    private Boolean rateHasDropped;
+    @Column(name = "date")
+    private LocalDate date;
 
-    public Rate() {
+    public RateLog() {
     }
 
-    public Rate(Currency currencyCode, Currency currencyName, BigDecimal rate) {
-        this.sourceCurrency = currencyCode;
-        this.targetCurrency = currencyName;
+    public RateLog(Currency sourceCurrency, Currency targetCurrency, BigDecimal rate, LocalDate date) {
+        this.sourceCurrency = sourceCurrency;
+        this.targetCurrency = targetCurrency;
         this.rate = rate;
+        this.date = date;
     }
 
     public Long getId() {
@@ -45,16 +47,16 @@ public class Rate {
         return this.sourceCurrency;
     }
 
-    public void setSourceCurrency(Currency sourceCurrencyCode) {
-        this.sourceCurrency = sourceCurrencyCode;
+    public void setSourceCurrency(Currency sourceCurrency) {
+        this.sourceCurrency = sourceCurrency;
     }
 
     public Currency getTargetCurrency() {
         return this.targetCurrency;
     }
 
-    public void setTargetCurrency(Currency targetCurrencyCode) {
-        this.targetCurrency = targetCurrencyCode;
+    public void setTargetCurrency(Currency targetCurrency) {
+        this.targetCurrency = targetCurrency;
     }
 
     public BigDecimal getRate() {
@@ -65,11 +67,11 @@ public class Rate {
         this.rate = rate;
     }
 
-    public Boolean getRateHasDropped() {
-        return this.rateHasDropped;
+    public LocalDate getDate() {
+        return this.date;
     }
 
-    public void setRateHasDropped(Boolean rateHasDropped) {
-        this.rateHasDropped = rateHasDropped;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

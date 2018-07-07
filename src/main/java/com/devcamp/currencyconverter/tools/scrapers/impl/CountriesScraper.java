@@ -1,8 +1,8 @@
 package com.devcamp.currencyconverter.tools.scrapers.impl;
 
 import com.devcamp.currencyconverter.constants.Qualifiers;
-import com.devcamp.currencyconverter.entities.Country;
-import com.devcamp.currencyconverter.entities.Currency;
+import com.devcamp.currencyconverter.model.entities.Country;
+import com.devcamp.currencyconverter.model.entities.Currency;
 import com.devcamp.currencyconverter.services.api.CountryService;
 import com.devcamp.currencyconverter.services.api.CurrencyService;
 import com.devcamp.currencyconverter.tools.scrapers.api.Scraper;

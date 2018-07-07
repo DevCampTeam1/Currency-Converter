@@ -1,29 +1,30 @@
 package com.devcamp.currencyconverter.cache;
 
-import com.devcamp.currencyconverter.entities.Currency;
-import com.devcamp.currencyconverter.entities.Rate;
+import com.devcamp.currencyconverter.model.entities.Rate;
+import com.devcamp.currencyconverter.model.views.CurrencyView;
+import com.devcamp.currencyconverter.model.views.RateView;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
 public final class Cache {
-    private List<List<Rate>> top8Rates;
-    private List<Currency> allCurrencies;
+    private List<List<RateView>> top8Rates;
+    private List<CurrencyView> allCurrencies;
 
-    public void cacheRatesTable(List<List<Rate>> top8Rates){
+    public void cacheRatesTable(List<List<RateView>> top8Rates){
         this.top8Rates = top8Rates;
     }
 
-    public void cacheCurrencies(List<Currency> allCurrencies){
+    public void cacheCurrencies(List<CurrencyView> allCurrencies){
         this.allCurrencies = allCurrencies;
     }
 
-    public List<List<Rate>> getTop8Rates() {
+    public List<List<RateView>> getTop8Rates() {
         return this.top8Rates;
     }
 
-    public List<Currency> getAllCurrencies() {
+    public List<CurrencyView> getAllCurrencies() {
         return this.allCurrencies;
     }
 }
