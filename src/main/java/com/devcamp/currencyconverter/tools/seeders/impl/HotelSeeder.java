@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @Component(value = Qualifiers.HOTEL_SEEDER)
 public class HotelSeeder implements Seeder {
@@ -45,7 +46,7 @@ public class HotelSeeder implements Seeder {
                 String countryName = data[COUNTRY_NAME_INDEX];
                 String title = data[HOTEL_TITLE_INDEX];
                 String pictureUrl = data[PICTURE_URL_INDEX];
-                Double pricePerNight = Double.valueOf(data[PRICE_INDEX]);
+                BigDecimal pricePerNight = new BigDecimal(data[PRICE_INDEX]);
                 String url = data[URL_INDEX];
                 Country country = this.countryService.findByName(countryName);
                 Hotel hotel = new Hotel(title, pricePerNight, url, pictureUrl, country);

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -16,6 +17,6 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
             "\tWHERE c.currency_id = :currencyId)" +
             "AND h.price <= :price"
             , nativeQuery = true)
-    List<Hotel> getAllAvailableHotels(@Param(value = "price") Double price
+    List<Hotel> getAllAvailableHotels(@Param(value = "price") BigDecimal price
             , @Param(value = "currencyId") Long currencyId);
 }

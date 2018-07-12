@@ -31,6 +31,7 @@ public class LocConverter implements Converter {
         if (sum.compareTo(BigDecimal.ZERO) == 0) {
             return sum;
         }
+
         Currency usdCurrency = this.currencyService.getCurrency(Currencies.DEFAULT_TARGET_CURRENCY);
         BigDecimal rateToUSD = this.rateService.getRate(currency, usdCurrency).getRate();
 

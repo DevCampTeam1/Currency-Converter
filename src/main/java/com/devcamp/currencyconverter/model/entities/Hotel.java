@@ -1,6 +1,7 @@
 package com.devcamp.currencyconverter.model.entities;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 @Entity
@@ -14,7 +15,7 @@ public class Hotel {
     private String destination;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "url")
     private String url;
@@ -29,7 +30,7 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(String destination, Double price, String url, String pictureUrl, Country country) {
+    public Hotel(String destination, BigDecimal price, String url, String pictureUrl, Country country) {
         this.destination = destination;
         this.price = price;
         this.url = url;
@@ -53,11 +54,11 @@ public class Hotel {
         this.destination = destination;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return this.price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

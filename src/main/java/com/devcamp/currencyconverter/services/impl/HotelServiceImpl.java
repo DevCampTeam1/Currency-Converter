@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,10 +32,12 @@ public class HotelServiceImpl implements HotelService {
 
 
     @Override
-    public List<HotelView> findAllAvailableHotels(Double price, Currency currency) {
-        List<Hotel> hotels = this.hotelRepository.getAllAvailableHotels(price, currency.getId());
-        HotelView[] hotelsView = this.mapper.convert(hotels, HotelView[].class);
-        return Arrays.asList(hotelsView);
+    public List<HotelView> findAllAvailableHotels(BigDecimal price, Currency currency) {
+        List<Hotel> availableHotels = this.hotelRepository.getAllAvailableHotels(price, currency.getId());
+        HotelView[] hotelsView = this.mapper.convert(availableHotels, HotelView[].class);
+        List<HotelView> hotels = Arrays.asList(hotelsView);
+        hotels.forEach(h -> h.setNights(price));
+        return hotels;
     }
 
     @Override

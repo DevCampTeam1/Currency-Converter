@@ -100,8 +100,7 @@ public class IndexController {
         List<HotelView> hotels = null;
         List<Country> country = this.countryService.findAllByCurrency(target);
         if (country != null) {
-            hotels = this.hotelService.findAllAvailableHotels(resultInLoc.doubleValue(), target);
-            hotels.forEach(h -> h.setNights(resultInLoc.doubleValue()));
+            hotels = this.hotelService.findAllAvailableHotels(resultInLoc, target);
         }
 
         this.addAttributes(model, currencies, sourceCurrency, targetCurrency, sum, result

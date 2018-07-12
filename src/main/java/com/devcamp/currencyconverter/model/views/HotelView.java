@@ -1,9 +1,12 @@
 package com.devcamp.currencyconverter.model.views;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class HotelView {
     private String destination;
 
-    private Double price;
+    private BigDecimal price;
 
     private String url;
 
@@ -22,11 +25,11 @@ public class HotelView {
         this.destination = destination;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return this.price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -50,11 +53,12 @@ public class HotelView {
         return this.totalNights;
     }
 
-    public void setNights(Double sum) {
-        int totalNights = (int) (sum / this.price);
-        if (totalNights == 1) {
+    public void setNights(BigDecimal sum) {
+        BigDecimal totalNights = sum.divide(this.price, RoundingMode.HALF_UP)
+                .setScale(0, RoundingMode.DOWN);
+        if (totalNights.compareTo(BigDecimal.ONE) == 0) {
             this.totalNights = " 1 night.";
-        } else if (totalNights <= 14) {
+        } else if (totalNights.compareTo(BigDecimal.valueOf(14)) <= 0) {
             this.totalNights = " " + String.valueOf(totalNights) + " nights.";
         } else {
             this.totalNights = " 14+ nights.";
